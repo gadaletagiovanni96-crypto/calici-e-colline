@@ -25,16 +25,13 @@ const utenteSchema = new mongoose.Schema({
 });
 
 // Middleware pre-save per generare l'hash della password
-utenteSchema.pre('save', async function(next) {
-    if (!this.isModified('passwordHash')) return next();
+utenteSchema.pre('save', async function() {
+    // Se la password non è stata modificata, interrompe l'esecuzione uscendo dalla funzione
+    if (!this.isModified('passwordHash')) return;
     
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
-        next(); //procedi al salvataggio
-    } catch (error) {
-        next(error);
-    }
+    // Genera l'hash e sovrascrive la password in chiaro
+    const salt = await bcrypt.genSalt(10);
+    this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
 });
 
 // Metodo per la verifica della password in fase di login

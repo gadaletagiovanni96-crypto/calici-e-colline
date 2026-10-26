@@ -25,7 +25,7 @@ const autenticaJWT = async (req, res, next) => {
 
         // Attacca l'utente alla richiesta per le rotte successive
         req.user = utente;
-        next(); // Tutto ok, passa oltre!
+        next();
 
     } catch (error) {
         return res.status(403).json({ errore: 'Token non valido o scaduto.' });

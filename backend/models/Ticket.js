@@ -12,6 +12,13 @@ const ticketSchema = new mongoose.Schema({
         required: true, 
         unique: true,
         default: uuidv4 // Genera automaticamente una stringa univoca sicura
+    },
+    utilizzato: { 
+        type: Boolean, 
+        default: false 
+    },
+    dataUtilizzo: { 
+        type: Date 
     }
 });
 
