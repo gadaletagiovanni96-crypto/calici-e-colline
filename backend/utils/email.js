@@ -1,25 +1,53 @@
 const nodemailer = require('nodemailer');
+const QRCode = require('qrcode');
 
 const inviaEmailConferma = async (emailUtente, evento, ordine, tickets) => {
     try {
-        // Usa i dati configurati nel file .env
+        // Il server SMTP è quello del provider di posta (Gmail, Outlook, Aruba, ...)
         const transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
+            host: process.env.SMTP_HOST?.trim(),
             port: 587,
-            secure: false, // true per la porta 465
+            secure: false, // 587 parte in chiaro e poi attiva TLS
             auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS
+                user: process.env.SMTP_USER?.trim(),
+                pass: process.env.SMTP_PASS?.trim()
             }
         });
 
-        const codiciTicket = tickets.map(t => t.codice).join('\n');
+        // Un'immagine PNG per biglietto, allegata dentro la mail (non un link esterno)
+        const allegati = [];
+        const immagini = [];
+        for (let i = 0; i < tickets.length; i++) {
+            const codice = tickets[i].codice;
+            const png = await QRCode.toBuffer(codice, { type: 'png', width: 220, margin: 1 });
+            const cid = `qr${i}`;
+            allegati.push({
+                filename: `biglietto-${i + 1}.png`,
+                content: png,
+                cid
+            });
+            immagini.push(`
+                <p><strong>Biglietto ${i + 1}</strong></p>
+                <img src="cid:${cid}" alt="QR code del biglietto ${i + 1}" />
+                <p>${codice}</p>
+            `);
+        }
+
+        const testoCodici = tickets.map((ticket) => ticket.codice).join('\n');
 
         const messaggio = {
-            from: `"Calici e Colline" <${process.env.SMTP_USER}>`,
+            from: `"Calici e Colline" <${process.env.SMTP_USER?.trim()}>`,
             to: emailUtente,
             subject: 'Conferma Acquisto Biglietti - Calici e Colline',
-            text: `Grazie per il tuo acquisto!\n\nHai acquistato ${ordine.quantita} biglietti per ${evento.titolo}.\nImporto totale: €${ordine.importoTotale}\n\nI tuoi codici univoci per i QR Code sono:\n${codiciTicket}\n\nPuoi visualizzare i QR Code nella tua area personale.`
+            text: `Grazie per il tuo acquisto!\n\nHai acquistato ${ordine.quantita} biglietti per ${evento.titolo}.\nImporto totale: €${ordine.importoTotale}\n\nI QR Code sono allegati a questa email. I codici sono:\n${testoCodici}\n\nPuoi rivederli anche nella tua area personale.`,
+            html: `
+                <p>Grazie per il tuo acquisto!</p>
+                <p>Hai acquistato ${ordine.quantita} biglietti per <strong>${evento.titolo}</strong>.</p>
+                <p>Importo totale: €${ordine.importoTotale}</p>
+                ${immagini.join('')}
+                <p>Puoi rivedere i QR Code anche nella tua area personale.</p>
+            `,
+            attachments: allegati
         };
 
         await transporter.sendMail(messaggio);
