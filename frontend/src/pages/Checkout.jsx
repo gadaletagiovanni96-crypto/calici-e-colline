@@ -17,12 +17,14 @@ export default function Checkout() {
   const navigate = useNavigate();
 
   // Solo all'ingresso: il logout dalla barra porta alla home, non di nuovo al login.
-  // L'operatore non compra: se arriva qui viene mandato alla verifica.
+  // Operatore e amministratore non comprano.
   useEffect(() => {
     if (!sessioneIniziale.current) {
       navigate('/login', { state: { from: '/checkout' } });
     } else if (sessioneIniziale.current.ruolo === 'operatore') {
       navigate('/verifica', { replace: true });
+    } else if (sessioneIniziale.current.ruolo === 'amministratore') {
+      navigate('/dashboard', { replace: true });
     }
   }, [navigate]);
 

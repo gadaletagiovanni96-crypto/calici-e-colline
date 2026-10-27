@@ -8,9 +8,9 @@ const acquistaBiglietti = async (req, res) => {
     const { quantita } = req.body;
     const utenteId = req.user._id;
 
-    // L'operatore controlla i biglietti all'ingresso, non può comprarli
-    if (req.user.ruolo === 'operatore') {
-        return res.status(403).json({ errore: 'Gli operatori non possono acquistare biglietti.' });
+    // Comprano solo gli utenti: l'operatore controlla i QR, l'amministratore guarda le vendite
+    if (req.user.ruolo !== 'utente') {
+        return res.status(403).json({ errore: 'Solo gli utenti possono acquistare biglietti.' });
     }
 
     if (!quantita || quantita < 1) {

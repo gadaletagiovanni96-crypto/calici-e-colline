@@ -29,8 +29,8 @@ function BarraNavigazione() {
       boxShadow: 'var(--shadow-sm)'
     }}>
       <Link to="/">Evento</Link>
-      {/* Lo storico è per chi acquista: l'operatore vede solo la verifica */}
-      {utente && utente.ruolo !== 'operatore' && <Link to="/acquisti">I miei acquisti</Link>}
+      {/* Lo storico è solo per il ruolo utente: gli altri non acquistano */}
+      {utente?.ruolo === 'utente' && <Link to="/acquisti">I miei acquisti</Link>}
       {utente?.ruolo === 'operatore' && <Link to="/verifica">Verifica biglietti</Link>}
       {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
       {!utente && <Link to="/login">Accesso</Link>}
@@ -67,6 +67,7 @@ function SoloAutenticato() {
   const { utente } = useContext(UtenteContext);
   if (!utente) return <Navigate to="/login" state={{ from: '/acquisti' }} replace />;
   if (utente.ruolo === 'operatore') return <Navigate to="/verifica" replace />;
+  if (utente.ruolo === 'amministratore') return <Navigate to="/dashboard" replace />;
   return <Acquisti />;
 }
 

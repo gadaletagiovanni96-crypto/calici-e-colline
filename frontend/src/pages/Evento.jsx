@@ -59,6 +59,10 @@ export default function Evento() {
               <button className={styles.buyButton} onClick={() => navigate('/verifica')}>
                 Verifica un biglietto
               </button>
+            ) : utente?.ruolo === 'amministratore' ? (
+              <button className={styles.buyButton} onClick={() => navigate('/dashboard')}>
+                Vai alla dashboard
+              </button>
             ) : (
               <button
                 className={styles.buyButton}

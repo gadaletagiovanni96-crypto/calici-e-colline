@@ -24,10 +24,12 @@ export default function Login() {
       accedi(response.data.token, response.data.utente.ruolo);
 
       const ruolo = response.data.utente.ruolo;
-      // L'operatore non acquista: dopo il login va alla verifica, non al checkout
+      // Operatore e amministratore non passano dal checkout
       let destinazione = location.state?.from || '/';
       if (ruolo === 'operatore') destinazione = '/verifica';
-      else if (!location.state?.from && ruolo === 'amministratore') destinazione = '/dashboard';
+      else if (ruolo === 'amministratore' && (!location.state?.from || location.state.from === '/checkout')) {
+        destinazione = '/dashboard';
+      }
       navigate(destinazione);
     } catch (err) {
       // Mostra l'errore restituito dal backend (es. "Credenziali non valide")
