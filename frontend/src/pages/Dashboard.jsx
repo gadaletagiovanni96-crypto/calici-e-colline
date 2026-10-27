@@ -16,12 +16,17 @@ export default function Dashboard() {
         const response = await api.get('/admin/dashboard');
         setDati(response.data);
       } catch (err) {
-        if (err.response?.status === 401 || err.response?.status === 403) {
-          // Se il token è scaduto o non si hanno i permessi, rimanda al login
+        const status = err.response?.status;
+        const messaggio = err.response?.data?.errore;
+        // 403 del middleware è il token scaduto; 403 del ruolo tiene la sessione e torna alla home
+        if (status === 401 || messaggio === 'Token non valido o scaduto.') {
           localStorage.removeItem('token');
+          localStorage.removeItem('ruolo');
           navigate('/login');
+        } else if (status === 403) {
+          navigate('/');
         } else {
-          setErrore(err.response?.data?.errore || 'Errore nel caricamento della dashboard.');
+          setErrore(messaggio || 'Errore nel caricamento della dashboard.');
         }
       } finally {
         setCaricamento(false);
@@ -33,6 +38,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('ruolo');
     navigate('/login');
   };
 

@@ -19,11 +19,13 @@ export default function Login() {
       // Chiama la rotta backend che abbiamo creato in precedenza
       const response = await api.post('/auth/login', { email, password });
       
-      // Salva il token nel browser per le richieste future
+      // Salva token e ruolo: il backend li restituisce insieme e servono entrambi
       localStorage.setItem('token', response.data.token);
-      
-      //controlla da dove proviene la richiesta di login
-      const destinazione = location.state?.from || '/dashboard';
+      localStorage.setItem('ruolo', response.data.utente.ruolo);
+
+      // Da checkout si torna all'acquisto; l'admin va in dashboard, gli altri alla home
+      const destinazione = location.state?.from
+        || (response.data.utente.ruolo === 'amministratore' ? '/dashboard' : '/');
       navigate(destinazione);
     } catch (err) {
       // Mostra l'errore restituito dal backend (es. "Credenziali non valide")

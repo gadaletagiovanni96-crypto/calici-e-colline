@@ -30,7 +30,7 @@ export default function Checkout() {
         const response = await api.get('/evento');
         setEvento(response.data);
       } catch (error) {
-        setErroreMsg("Impossibile caricare i dettagli dell'evento.");
+        setErroreMsg(error.response?.data?.errore || "Impossibile caricare i dettagli dell'evento.");
       }
     };
     fetchEvento();
@@ -61,8 +61,10 @@ export default function Checkout() {
       setOrdine(response.data); // { messaggio, ordine, tickets }
       setStatoCaricamento('successo');
     } catch (err) {
-      if (err.response?.status === 401) {
+      // 401 = token assente, 403 = token scaduto (la rotta acquista non controlla il ruolo)
+      if (err.response?.status === 401 || err.response?.status === 403) {
         localStorage.removeItem('token');
+        localStorage.removeItem('ruolo');
         navigate('/login', { state: { from: '/checkout' } });
         return;
       }

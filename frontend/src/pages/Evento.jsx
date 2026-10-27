@@ -16,15 +16,7 @@ export default function Evento() {
         const response = await api.get('/evento'); 
         setEvento(response.data);
       } catch (err) {
-        console.warn("Rotta /evento non trovata, uso dati mockati temporanei.");
-        setEvento({
-          titolo: 'Calici e Colline 2026',
-          descrizione: 'Un\'esperienza enogastronomica indimenticabile tra le colline pugliesi. Degustazioni, musica e tradizione in un\'atmosfera unica.',
-          dataOra: '2026-09-15T18:00:00Z',
-          luogo: 'Piazza Centrale, Molfetta',
-          prezzo: 15.00,
-          ticketDisponibili: 500
-        });
+        setErrore(err.response?.data?.errore || "Impossibile caricare l'evento.");
       } finally {
         setCaricamento(false);
       }
