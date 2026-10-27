@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Evento from './pages/Evento';
 import Checkout from './pages/Checkout';
+import Acquisti from './pages/Acquisti';
 import { UtenteContext, UtenteProvider } from './context/UtenteContext';
 import { EventoProvider } from './context/EventoContext';
 
@@ -27,6 +28,7 @@ function BarraNavigazione() {
       boxShadow: 'var(--shadow-sm)'
     }}>
       <Link to="/">Evento</Link>
+      {utente && <Link to="/acquisti">I miei acquisti</Link>}
       {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
       {!utente && <Link to="/login">Accesso</Link>}
       {utente && (
@@ -57,6 +59,12 @@ function SoloAmministratore() {
   return <Dashboard />;
 }
 
+function SoloAutenticato() {
+  const { utente } = useContext(UtenteContext);
+  if (!utente) return <Navigate to="/login" state={{ from: '/acquisti' }} replace />;
+  return <Acquisti />;
+}
+
 function App() {
   return (
     <UtenteProvider>
@@ -70,6 +78,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<SoloAmministratore />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/acquisti" element={<SoloAutenticato />} />
             </Routes>
           </main>
         </Router>

@@ -81,8 +81,11 @@ export default function Checkout() {
             {(ordine?.ordine?.quantita ?? quantitaNum) === 1 ? 'biglietto' : 'biglietti'} per un
             totale di € {Number(ordine?.ordine?.importoTotale ?? totale).toFixed(2)}.
           </p>
-          <p>Riceverai i biglietti via email all'indirizzo associato al tuo account.</p>
-          <button className={styles.submitButton} onClick={() => navigate('/')}>
+          <p>I QR Code dei biglietti sono nella pagina dei tuoi acquisti.</p>
+          <button className={styles.submitButton} onClick={() => navigate('/acquisti')}>
+            Vedi i biglietti
+          </button>
+          <button className={styles.secondaryButton} onClick={() => navigate('/')}>
             Torna alla Home
           </button>
         </div>
