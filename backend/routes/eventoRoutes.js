@@ -5,7 +5,7 @@ const { autenticaJWT, autorizzaRuoli } = require('../middlewares/authMiddleware'
 
 // GET /api/evento
 // Accesso: Qualsiasi utente loggato (serve solo autenticaJWT)
-router.get('/', autenticaJWT, getEvento);
+router.get('/', getEvento);
 
 // PUT /api/evento
 // Accesso: SOLO Amministratori (serve autenticaJWT + autorizzaRuoli)

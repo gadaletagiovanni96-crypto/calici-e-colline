@@ -1,0 +1,112 @@
+/* src/pages/Evento.module.css */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  padding: 6rem 2rem;
+  text-align: center;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: var(--shadow-md);
+}
+
+.heroTitle {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.heroSubtitle {
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.content {
+  flex: 1;
+  max-width: 1000px;
+  margin: -3rem auto 2rem;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.infoItem {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--color-background);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.infoLabel {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.infoValue {
+  font-size: 1.2rem;
+  color: var(--color-text-main);
+  font-weight: 700;
+}
+
+.buySection {
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: 2rem;
+}
+
+.price {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.buyButton {
+  background-color: var(--color-secondary);
+  color: var(--color-surface);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.buyButton:hover {
+  background-color: #3a4a1c;
+  transform: translateY(-2px);
+}
+
+.buyButton:disabled {
+  background-color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
