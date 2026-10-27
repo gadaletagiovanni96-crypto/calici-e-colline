@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import styles from './Login.module.css'; // Importazione del CSS Module
@@ -75,6 +75,10 @@ export default function Login() {
             Accedi
           </button>
         </form>
+
+        <Link to="/registrazione" state={location.state} className={styles.switchLink}>
+          Non hai un account? Registrati
+        </Link>
       </div>
     </div>
   );

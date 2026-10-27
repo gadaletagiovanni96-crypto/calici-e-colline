@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
+import Registrazione from './pages/Registrazione';
 import Dashboard from './pages/Dashboard';
 import Evento from './pages/Evento';
 import Checkout from './pages/Checkout';
@@ -90,6 +91,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Evento />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/registrazione" element={<Registrazione />} />
               <Route path="/dashboard" element={<SoloAmministratore />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/acquisti" element={<SoloAutenticato />} />
