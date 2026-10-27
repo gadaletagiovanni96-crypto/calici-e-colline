@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
 import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
@@ -8,6 +9,7 @@ export default function Dashboard() {
   const [caricamento, setCaricamento] = useState(true);
   const [errore, setErrore] = useState('');
   
+  const { esci } = useContext(UtenteContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,12 +18,16 @@ export default function Dashboard() {
         const response = await api.get('/admin/dashboard');
         setDati(response.data);
       } catch (err) {
-        if (err.response?.status === 401 || err.response?.status === 403) {
-          // Se il token è scaduto o non si hanno i permessi, rimanda al login
-          localStorage.removeItem('token');
+        const status = err.response?.status;
+        const messaggio = err.response?.data?.errore;
+        // 403 del middleware è il token scaduto; 403 del ruolo tiene la sessione e torna alla home
+        if (status === 401 || messaggio === 'Token non valido o scaduto.') {
+          esci();
           navigate('/login');
+        } else if (status === 403) {
+          navigate('/');
         } else {
-          setErrore(err.response?.data?.errore || 'Errore nel caricamento della dashboard.');
+          setErrore(messaggio || 'Errore nel caricamento della dashboard.');
         }
       } finally {
         setCaricamento(false);
@@ -29,12 +35,7 @@ export default function Dashboard() {
     };
 
     fetchDashboardData();
-  }, [navigate]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
-  };
+  }, [navigate, esci]);
 
   if (caricamento) return <div className={styles.message}>Caricamento statistiche in corso...</div>;
 
@@ -42,7 +43,6 @@ export default function Dashboard() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Dashboard Amministratore</h1>
-        <button onClick={handleLogout} className={styles.logoutButton}>Esci</button>
       </div>
 
       {errore && <div className={styles.error}>{errore}</div>}

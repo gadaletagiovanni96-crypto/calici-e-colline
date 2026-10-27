@@ -20,7 +20,7 @@ const eseguiSeed = async () => {
             passwordHash: 'AdminPassword123!', //
             ruolo: 'amministratore'
         });
-        console.log('Account Amministratore creato (admin@caliciecolline.it / AdminPassword123!)');
+        console.log('Account Amministratore creato (admin@cali  ciecolline.it / AdminPassword123!)');
 
         // 3. Creazione dell'Operatore Scanner
         await Utente.create({
