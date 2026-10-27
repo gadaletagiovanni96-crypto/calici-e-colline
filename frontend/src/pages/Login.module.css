@@ -72,3 +72,17 @@
   font-size: 0.9rem;
   text-align: center;
 }
+
+.switchLink {
+  display: block;
+  text-align: center;
+  margin-top: 1.2rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.button:disabled {
+  background-color: var(--color-text-muted);
+  cursor: not-allowed;
+}

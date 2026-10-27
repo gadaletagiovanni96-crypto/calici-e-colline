@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import styles from './Login.module.css'; // Importazione del CSS Module
@@ -23,9 +23,13 @@ export default function Login() {
       
       accedi(response.data.token, response.data.utente.ruolo);
 
-      // Da checkout si torna all'acquisto; l'admin va in dashboard, gli altri alla home
-      const destinazione = location.state?.from
-        || (response.data.utente.ruolo === 'amministratore' ? '/dashboard' : '/');
+      const ruolo = response.data.utente.ruolo;
+      // Operatore e amministratore non passano dal checkout
+      let destinazione = location.state?.from || '/';
+      if (ruolo === 'operatore') destinazione = '/verifica';
+      else if (ruolo === 'amministratore' && (!location.state?.from || location.state.from === '/checkout')) {
+        destinazione = '/dashboard';
+      }
       navigate(destinazione);
     } catch (err) {
       // Mostra l'errore restituito dal backend (es. "Credenziali non valide")
@@ -71,6 +75,10 @@ export default function Login() {
             Accedi
           </button>
         </form>
+
+        <Link to="/registrazione" state={location.state} className={styles.switchLink}>
+          Non hai un account? Registrati
+        </Link>
       </div>
     </div>
   );

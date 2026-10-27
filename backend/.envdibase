@@ -1,0 +1,7 @@
+PORT=5001
+MONGO_URI=
+JWT_SECRET=chiave_super_super_sicura_jwt
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASS=
+

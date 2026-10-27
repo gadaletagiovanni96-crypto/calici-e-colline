@@ -4,19 +4,20 @@ import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import styles from './Acquisti.module.css';
 
-// Il QR non è salvato nel database: è un'immagine generata dal codice del ticket
+// Il QR non è salvato nel database: il servizio esterno disegna l'immagine a partire dal codice del ticket
 function urlQr(codice) {
   return `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(codice)}`;
 }
 
 export default function Acquisti() {
-  const [acquisti, setAcquisti] = useState([]);
+  const [acquisti, setAcquisti] = useState([]); // storico ordini con i relativi ticket
   const [caricamento, setCaricamento] = useState(true);
   const [errore, setErrore] = useState('');
 
   const { esci } = useContext(UtenteContext);
   const navigate = useNavigate();
 
+  // Al primo render chiede gli acquisti dell'utente loggato (il token lo aggiunge l'interceptor di axios)
   useEffect(() => {
     const caricaAcquisti = async () => {
       try {
@@ -25,6 +26,7 @@ export default function Acquisti() {
       } catch (err) {
         const status = err.response?.status;
         const messaggio = err.response?.data?.errore;
+        // 401 = token assente, 403 del middleware = token scaduto: si esce e si torna al login
         if (status === 401 || messaggio === 'Token non valido o scaduto.') {
           esci();
           navigate('/login', { state: { from: '/acquisti' } });
@@ -47,10 +49,12 @@ export default function Acquisti() {
 
       {errore && <div className={styles.error}>{errore}</div>}
 
+      {/* Lista vuota: l'utente è loggato ma non ha ancora ordini */}
       {!errore && acquisti.length === 0 && (
         <p className={styles.message}>Non hai ancora acquistato biglietti.</p>
       )}
 
+      {/* Un riquadro per ordine, e dentro un QR per ogni biglietto */}
       {acquisti.map((ordine) => (
         <article key={ordine.id} className={styles.card}>
           <h2 className={styles.orderTitle}>

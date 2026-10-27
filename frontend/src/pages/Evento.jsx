@@ -55,13 +55,23 @@ export default function Evento() {
 
           <div className={styles.buySection}>
             <span className={styles.price}>€ {evento.prezzo.toFixed(2)}</span>
-            <button 
-              className={styles.buyButton} 
-              onClick={handleAcquisto}
-              disabled={evento.ticketDisponibili <= 0}
-            >
-              {evento.ticketDisponibili > 0 ? 'Acquista Biglietto' : 'Esaurito'}
-            </button>
+            {utente?.ruolo === 'operatore' ? (
+              <button className={styles.buyButton} onClick={() => navigate('/verifica')}>
+                Verifica un biglietto
+              </button>
+            ) : utente?.ruolo === 'amministratore' ? (
+              <button className={styles.buyButton} onClick={() => navigate('/dashboard')}>
+                Vai alla dashboard
+              </button>
+            ) : (
+              <button
+                className={styles.buyButton}
+                onClick={handleAcquisto}
+                disabled={evento.ticketDisponibili <= 0}
+              >
+                {evento.ticketDisponibili > 0 ? 'Acquista Biglietto' : 'Esaurito'}
+              </button>
+            )}
           </div>
         </div>
       </main>
