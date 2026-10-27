@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Evento from './pages/Evento';
 import Checkout from './pages/Checkout';
+import { UtenteContext, UtenteProvider } from './context/UtenteContext';
+import { EventoProvider } from './context/EventoContext';
 
-// useLocation fa ricalcolare il menu a ogni cambio pagina, così legge il token appena salvato
 function BarraNavigazione() {
-  useLocation();
-  const token = localStorage.getItem('token');
-  const ruolo = localStorage.getItem('ruolo');
+  const { utente } = useContext(UtenteContext);
 
   return (
     <nav style={{ 
@@ -21,33 +21,36 @@ function BarraNavigazione() {
     }}>
       <Link to="/">Evento</Link>
       <Link to="/login">Accesso Staff</Link>
-      {token && ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
+      {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
     </nav>
   );
 }
 
 function SoloAmministratore() {
-  const token = localStorage.getItem('token');
-  const ruolo = localStorage.getItem('ruolo');
-  if (!token) return <Navigate to="/login" replace />;
-  if (ruolo !== 'amministratore') return <Navigate to="/" replace />;
+  const { utente } = useContext(UtenteContext);
+  if (!utente) return <Navigate to="/login" replace />;
+  if (utente.ruolo !== 'amministratore') return <Navigate to="/" replace />;
   return <Dashboard />;
 }
 
 function App() {
   return (
-    <Router>
-      <BarraNavigazione />
+    <UtenteProvider>
+      <EventoProvider>
+        <Router>
+          <BarraNavigazione />
 
-      <main style={{ padding: '2rem' }}>
-        <Routes>
-          <Route path="/" element={<Evento />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<SoloAmministratore />} />
-          <Route path="/checkout" element={<Checkout />} />
-        </Routes>
-      </main>
-    </Router>
+          <main style={{ padding: '2rem' }}>
+            <Routes>
+              <Route path="/" element={<Evento />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<SoloAmministratore />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Routes>
+          </main>
+        </Router>
+      </EventoProvider>
+    </UtenteProvider>
   );
 }
 

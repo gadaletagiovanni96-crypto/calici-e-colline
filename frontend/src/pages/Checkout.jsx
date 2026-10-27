@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
+import { EventoContext } from '../context/EventoContext';
 import styles from './Checkout.module.css';
 
 const MAX_BIGLIETTI = 10; // limite lato UI, il backend controlla solo la disponibilità reale
 
 export default function Checkout() {
-  const [evento, setEvento] = useState(null);
+  const { utente, esci } = useContext(UtenteContext);
+  const { evento, errore: erroreEvento, ricarica } = useContext(EventoContext);
   const [quantita, setQuantita] = useState(1);
   const [statoCaricamento, setStatoCaricamento] = useState('iniziale'); // iniziale, invio, successo, errore
   const [erroreMsg, setErroreMsg] = useState('');
@@ -16,25 +19,10 @@ export default function Checkout() {
 
   // Il backend richiede un utente autenticato (usa req.user): senza token si va al login
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      // 'from' permette al login di rimandarci qui dopo l'accesso
+    if (!utente) {
       navigate('/login', { state: { from: '/checkout' } });
     }
-  }, [navigate]);
-
-  // Recupera i dettagli dell'evento (prezzo e ticketDisponibili)
-  useEffect(() => {
-    const fetchEvento = async () => {
-      try {
-        const response = await api.get('/evento');
-        setEvento(response.data);
-      } catch (error) {
-        setErroreMsg(error.response?.data?.errore || "Impossibile caricare i dettagli dell'evento.");
-      }
-    };
-    fetchEvento();
-  }, []);
+  }, [utente, navigate]);
 
   const disponibili = evento?.ticketDisponibili ?? MAX_BIGLIETTI;
   const maxAcquistabili = Math.min(MAX_BIGLIETTI, disponibili);
@@ -60,11 +48,11 @@ export default function Checkout() {
       const response = await api.post('/ordini/acquista', { quantita: quantitaNum });
       setOrdine(response.data); // { messaggio, ordine, tickets }
       setStatoCaricamento('successo');
+      ricarica();
     } catch (err) {
       // 401 = token assente, 403 = token scaduto (la rotta acquista non controlla il ruolo)
       if (err.response?.status === 401 || err.response?.status === 403) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('ruolo');
+        esci();
         navigate('/login', { state: { from: '/checkout' } });
         return;
       }
@@ -76,8 +64,8 @@ export default function Checkout() {
   const totale = quantitaValida && evento ? evento.prezzo * quantitaNum : 0;
 
   // Evento non caricato: mostra l'errore invece di restare in caricamento all'infinito
-  if (!evento && erroreMsg) {
-    return <div style={{ textAlign: 'center', padding: '3rem', color: 'red' }}>{erroreMsg}</div>;
+  if (!evento && (erroreEvento || erroreMsg)) {
+    return <div style={{ textAlign: 'center', padding: '3rem', color: 'red' }}>{erroreEvento || erroreMsg}</div>;
   }
 
   if (!evento) {

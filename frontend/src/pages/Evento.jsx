@@ -1,41 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
+import { EventoContext } from '../context/EventoContext';
 import styles from './Evento.module.css';
 
 export default function Evento() {
-  const [evento, setEvento] = useState(null);
-  const [caricamento, setCaricamento] = useState(true);
-  const [errore, setErrore] = useState('');
-  
+  const { utente } = useContext(UtenteContext);
+  const { evento, caricamento, errore } = useContext(EventoContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchEvento = async () => {
-      try {
-        const response = await api.get('/evento'); 
-        setEvento(response.data);
-      } catch (err) {
-        setErrore(err.response?.data?.errore || "Impossibile caricare l'evento.");
-      } finally {
-        setCaricamento(false);
-      }
-    };
-
-    fetchEvento();
-  }, []);
-
-const handleAcquisto = () => {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
+  const handleAcquisto = () => {
+    if (!utente) {
       navigate('/login', { state: { from: '/checkout' } });
     } else {
       navigate('/checkout');
     }
   };
-  if (caricamento) return <div style={{ textAlign: 'center', padding: '5rem' }}>Caricamento evento...</div>;
-  if (errore) return <div style={{ color: 'red', textAlign: 'center', padding: '5rem' }}>{errore}</div>;
+  if (caricamento && !evento) return <div style={{ textAlign: 'center', padding: '5rem' }}>Caricamento evento...</div>;
+  if (!evento) return <div style={{ color: 'red', textAlign: 'center', padding: '5rem' }}>{errore || "Impossibile caricare l'evento."}</div>;
 
   return (
     <div className={styles.container}>

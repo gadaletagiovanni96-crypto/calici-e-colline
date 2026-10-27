@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
 import styles from './Login.module.css'; // Importazione del CSS Module
 
 export default function Login() {
@@ -8,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [errore, setErrore] = useState('');
   
+  const { accedi } = useContext(UtenteContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,9 +21,7 @@ export default function Login() {
       // Chiama la rotta backend che abbiamo creato in precedenza
       const response = await api.post('/auth/login', { email, password });
       
-      // Salva token e ruolo: il backend li restituisce insieme e servono entrambi
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('ruolo', response.data.utente.ruolo);
+      accedi(response.data.token, response.data.utente.ruolo);
 
       // Da checkout si torna all'acquisto; l'admin va in dashboard, gli altri alla home
       const destinazione = location.state?.from

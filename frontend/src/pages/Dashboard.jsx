@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
 import styles from './Dashboard.module.css';
 
 export default function Dashboard() {
@@ -8,6 +9,7 @@ export default function Dashboard() {
   const [caricamento, setCaricamento] = useState(true);
   const [errore, setErrore] = useState('');
   
+  const { esci } = useContext(UtenteContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +22,7 @@ export default function Dashboard() {
         const messaggio = err.response?.data?.errore;
         // 403 del middleware è il token scaduto; 403 del ruolo tiene la sessione e torna alla home
         if (status === 401 || messaggio === 'Token non valido o scaduto.') {
-          localStorage.removeItem('token');
-          localStorage.removeItem('ruolo');
+          esci();
           navigate('/login');
         } else if (status === 403) {
           navigate('/');
@@ -34,11 +35,10 @@ export default function Dashboard() {
     };
 
     fetchDashboardData();
-  }, [navigate]);
+  }, [navigate, esci]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('ruolo');
+    esci();
     navigate('/login');
   };
 
