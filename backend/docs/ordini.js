@@ -24,3 +24,18 @@
  *       400:
  *         description: Quantità non valida o posti insufficienti
  */
+
+/**
+ * @swagger
+ * /api/ordini/miei:
+ *   get:
+ *     summary: Elenco degli acquisti dell'utente loggato, con i codici dei ticket
+ *     tags: [Ordini]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Storico ordini e codici per i QR Code
+ *       401:
+ *         description: Token assente
+ */

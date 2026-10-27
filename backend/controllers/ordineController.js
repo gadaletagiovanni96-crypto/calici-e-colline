@@ -71,4 +71,27 @@ const acquistaBiglietti = async (req, res) => {
     }
 };
 
-module.exports = { acquistaBiglietti };
+// Ordini dell'utente loggato, con i codici usati per i QR
+const getMieiAcquisti = async (req, res) => {
+    try {
+        const ordini = await Ordine.find({ utenteId: req.user._id }).sort({ dataAcquisto: -1 });
+
+        const acquisti = [];
+        for (const ordine of ordini) {
+            const tickets = await Ticket.find({ ordineId: ordine._id }).select('codice');
+            acquisti.push({
+                id: ordine._id,
+                quantita: ordine.quantita,
+                importoTotale: ordine.importoTotale,
+                dataAcquisto: ordine.dataAcquisto,
+                tickets
+            });
+        }
+
+        res.status(200).json(acquisti);
+    } catch (error) {
+        res.status(500).json({ errore: 'Errore nel recupero degli acquisti.' });
+    }
+};
+
+module.exports = { acquistaBiglietti, getMieiAcquisti };

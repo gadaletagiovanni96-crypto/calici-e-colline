@@ -4,7 +4,7 @@ const { getEvento, aggiornaEvento } = require('../controllers/eventoController')
 const { autenticaJWT, autorizzaRuoli } = require('../middlewares/authMiddleware');
 
 // GET /api/evento
-// Accesso: Qualsiasi utente loggato (serve solo autenticaJWT)
+// Accesso: rotta libera
 router.get('/', getEvento);
 
 // PUT /api/evento
