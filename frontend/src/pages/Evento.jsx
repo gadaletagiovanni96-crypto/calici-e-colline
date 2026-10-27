@@ -55,7 +55,7 @@ export default function Evento() {
 
           <div className={styles.buySection}>
             <span className={styles.price}>€ {evento.prezzo.toFixed(2)}</span>
-            {utente.ruolo === 'operatore' ? (
+            {utente?.ruolo === 'operatore' ? (
               <button className={styles.buyButton} onClick={() => navigate('/verifica')}>
                 Verifica un biglietto
               </button>
