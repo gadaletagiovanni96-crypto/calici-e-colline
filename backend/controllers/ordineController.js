@@ -8,6 +8,11 @@ const acquistaBiglietti = async (req, res) => {
     const { quantita } = req.body;
     const utenteId = req.user._id;
 
+    // L'operatore controlla i biglietti all'ingresso, non può comprarli
+    if (req.user.ruolo === 'operatore') {
+        return res.status(403).json({ errore: 'Gli operatori non possono acquistare biglietti.' });
+    }
+
     if (!quantita || quantita < 1) {
         return res.status(400).json({ errore: 'Quantità non valida.' });
     }
@@ -71,13 +76,15 @@ const acquistaBiglietti = async (req, res) => {
     }
 };
 
-// Ordini dell'utente loggato, con i codici usati per i QR
+// Storico acquisti dell'utente loggato, con i codici da cui il frontend disegna i QR
 const getMieiAcquisti = async (req, res) => {
     try {
+        // utenteId arriva dal token (req.user), così un utente vede solo i propri ordini
         const ordini = await Ordine.find({ utenteId: req.user._id }).sort({ dataAcquisto: -1 });
 
         const acquisti = [];
         for (const ordine of ordini) {
+            // Del ticket serve solo il codice: l'immagine QR non è salvata nel database
             const tickets = await Ticket.find({ ordineId: ordine._id }).select('codice');
             acquisti.push({
                 id: ordine._id,

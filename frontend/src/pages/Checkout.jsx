@@ -16,14 +16,18 @@ export default function Checkout() {
 
   const navigate = useNavigate();
 
-  // Solo all'ingresso: il logout dalla barra porta alla home, non di nuovo al login
+  // Solo all'ingresso: il logout dalla barra porta alla home, non di nuovo al login.
+  // L'operatore non compra: se arriva qui viene mandato alla verifica.
   useEffect(() => {
     if (!sessioneIniziale.current) {
       navigate('/login', { state: { from: '/checkout' } });
+    } else if (sessioneIniziale.current.ruolo === 'operatore') {
+      navigate('/verifica', { replace: true });
     }
   }, [navigate]);
 
-  const disponibili = evento.ticketDisponibili;
+  // evento parte null: senza il ?. il render si interrompe e il redirect dell'operatore non parte
+  const disponibili = evento?.ticketDisponibili ?? 0;
   const quantitaNum = Number(quantita);
   const quantitaValida =
     Number.isInteger(quantitaNum) && quantitaNum >= 1 && quantitaNum <= disponibili;
@@ -48,8 +52,9 @@ export default function Checkout() {
       setStatoCaricamento('successo');
       ricarica();
     } catch (err) {
-      // 401 = token assente, 403 = token scaduto (la rotta acquista non controlla il ruolo)
-      if (err.response?.status === 401 || err.response?.status === 403) {
+      // 401 = token assente. Il 403 del middleware è il token scaduto; un altro 403 è un divieto (es. operatore)
+      const messaggio = err.response?.data?.errore;
+      if (err.response?.status === 401 || messaggio === 'Token non valido o scaduto.') {
         esci();
         navigate('/login', { state: { from: '/checkout' } });
         return;
@@ -81,6 +86,7 @@ export default function Checkout() {
             {(ordine?.ordine?.quantita ?? quantitaNum) === 1 ? 'biglietto' : 'biglietti'} per un
             totale di € {Number(ordine?.ordine?.importoTotale ?? totale).toFixed(2)}.
           </p>
+          {/* I QR non stanno nella mail: restano consultabili dalla pagina acquisti */}
           <p>I QR Code dei biglietti sono nella pagina dei tuoi acquisti.</p>
           <button className={styles.submitButton} onClick={() => navigate('/acquisti')}>
             Vedi i biglietti

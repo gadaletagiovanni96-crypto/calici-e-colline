@@ -23,6 +23,8 @@
  *         description: Acquisto completato con successo (Genera Ordine e Ticket)
  *       400:
  *         description: Quantità non valida o posti insufficienti
+ *       403:
+ *         description: Operatore non autorizzato all'acquisto, oppure token scaduto
  */
 
 /**

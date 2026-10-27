@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Evento from './pages/Evento';
 import Checkout from './pages/Checkout';
 import Acquisti from './pages/Acquisti';
+import Verifica from './pages/Verifica';
 import { UtenteContext, UtenteProvider } from './context/UtenteContext';
 import { EventoProvider } from './context/EventoContext';
 
@@ -28,7 +29,9 @@ function BarraNavigazione() {
       boxShadow: 'var(--shadow-sm)'
     }}>
       <Link to="/">Evento</Link>
-      {utente && <Link to="/acquisti">I miei acquisti</Link>}
+      {/* Lo storico è per chi acquista: l'operatore vede solo la verifica */}
+      {utente && utente.ruolo !== 'operatore' && <Link to="/acquisti">I miei acquisti</Link>}
+      {utente?.ruolo === 'operatore' && <Link to="/verifica">Verifica biglietti</Link>}
       {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
       {!utente && <Link to="/login">Accesso</Link>}
       {utente && (
@@ -59,10 +62,20 @@ function SoloAmministratore() {
   return <Dashboard />;
 }
 
+// Rotta protetta: senza sessione si va al login e, dopo l'accesso, si torna agli acquisti
 function SoloAutenticato() {
   const { utente } = useContext(UtenteContext);
   if (!utente) return <Navigate to="/login" state={{ from: '/acquisti' }} replace />;
+  if (utente.ruolo === 'operatore') return <Navigate to="/verifica" replace />;
   return <Acquisti />;
+}
+
+// Solo l'operatore può aprire la pagina di scansione
+function SoloOperatore() {
+  const { utente } = useContext(UtenteContext);
+  if (!utente) return <Navigate to="/login" state={{ from: '/verifica' }} replace />;
+  if (utente.ruolo !== 'operatore') return <Navigate to="/" replace />;
+  return <Verifica />;
 }
 
 function App() {
@@ -79,6 +92,7 @@ function App() {
               <Route path="/dashboard" element={<SoloAmministratore />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/acquisti" element={<SoloAutenticato />} />
+              <Route path="/verifica" element={<SoloOperatore />} />
             </Routes>
           </main>
         </Router>
