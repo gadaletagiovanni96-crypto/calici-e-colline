@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
@@ -9,6 +9,7 @@ const MAX_BIGLIETTI = 10; // limite lato UI, il backend controlla solo la dispon
 
 export default function Checkout() {
   const { utente, esci } = useContext(UtenteContext);
+  const sessioneIniziale = useRef(utente);
   const { evento, errore: erroreEvento, ricarica } = useContext(EventoContext);
   const [quantita, setQuantita] = useState(1);
   const [statoCaricamento, setStatoCaricamento] = useState('iniziale'); // iniziale, invio, successo, errore
@@ -17,12 +18,12 @@ export default function Checkout() {
 
   const navigate = useNavigate();
 
-  // Il backend richiede un utente autenticato (usa req.user): senza token si va al login
+  // Solo all'ingresso: il logout dalla barra porta alla home, non di nuovo al login
   useEffect(() => {
-    if (!utente) {
+    if (!sessioneIniziale.current) {
       navigate('/login', { state: { from: '/checkout' } });
     }
-  }, [utente, navigate]);
+  }, [navigate]);
 
   const disponibili = evento?.ticketDisponibili ?? MAX_BIGLIETTI;
   const maxAcquistabili = Math.min(MAX_BIGLIETTI, disponibili);

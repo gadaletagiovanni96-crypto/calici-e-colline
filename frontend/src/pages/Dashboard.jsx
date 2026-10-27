@@ -37,18 +37,12 @@ export default function Dashboard() {
     fetchDashboardData();
   }, [navigate, esci]);
 
-  const handleLogout = () => {
-    esci();
-    navigate('/login');
-  };
-
   if (caricamento) return <div className={styles.message}>Caricamento statistiche in corso...</div>;
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Dashboard Amministratore</h1>
-        <button onClick={handleLogout} className={styles.logoutButton}>Esci</button>
       </div>
 
       {errore && <div className={styles.error}>{errore}</div>}

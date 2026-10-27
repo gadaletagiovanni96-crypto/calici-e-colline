@@ -36,7 +36,7 @@ export default function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Accesso Staff</h2>
+        <h2 className={styles.title}>Accesso</h2>
         
         {errore && <div className={styles.errorBox}>{errore}</div>}
 
