@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
+import { UtenteContext } from '../context/UtenteContext';
 import styles from './Login.module.css'; // Importazione del CSS Module
 
 export default function Login() {
@@ -8,6 +9,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [errore, setErrore] = useState('');
   
+  const { accedi } = useContext(UtenteContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -19,11 +21,11 @@ export default function Login() {
       // Chiama la rotta backend che abbiamo creato in precedenza
       const response = await api.post('/auth/login', { email, password });
       
-      // Salva il token nel browser per le richieste future
-      localStorage.setItem('token', response.data.token);
-      
-      //controlla da dove proviene la richiesta di login
-      const destinazione = location.state?.from || '/dashboard';
+      accedi(response.data.token, response.data.utente.ruolo);
+
+      // Da checkout si torna all'acquisto; l'admin va in dashboard, gli altri alla home
+      const destinazione = location.state?.from
+        || (response.data.utente.ruolo === 'amministratore' ? '/dashboard' : '/');
       navigate(destinazione);
     } catch (err) {
       // Mostra l'errore restituito dal backend (es. "Credenziali non valide")
@@ -34,7 +36,7 @@ export default function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Accesso Staff</h2>
+        <h2 className={styles.title}>Accesso</h2>
         
         {errore && <div className={styles.errorBox}>{errore}</div>}
 
