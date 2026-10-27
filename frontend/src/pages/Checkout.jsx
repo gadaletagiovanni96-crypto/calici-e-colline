@@ -5,8 +5,6 @@ import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
 import styles from './Checkout.module.css';
 
-const MAX_BIGLIETTI = 10; // limite lato UI, il backend controlla solo la disponibilità reale
-
 export default function Checkout() {
   const { utente, esci } = useContext(UtenteContext);
   const sessioneIniziale = useRef(utente);
@@ -25,11 +23,10 @@ export default function Checkout() {
     }
   }, [navigate]);
 
-  const disponibili = evento?.ticketDisponibili ?? MAX_BIGLIETTI;
-  const maxAcquistabili = Math.min(MAX_BIGLIETTI, disponibili);
+  const disponibili = evento.ticketDisponibili;
   const quantitaNum = Number(quantita);
   const quantitaValida =
-    Number.isInteger(quantitaNum) && quantitaNum >= 1 && quantitaNum <= maxAcquistabili;
+    Number.isInteger(quantitaNum) && quantitaNum >= 1 && quantitaNum <= disponibili;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,7 +34,7 @@ export default function Checkout() {
     // Stessa validazione del backend (quantità >= 1), più il tetto di disponibilità
     if (!quantitaValida) {
       setStatoCaricamento('errore');
-      setErroreMsg(`Scegli da 1 a ${maxAcquistabili} biglietti.`);
+      setErroreMsg(`Scegli da 1 a ${disponibili} biglietti.`);
       return;
     }
 
@@ -117,7 +114,7 @@ export default function Checkout() {
                 name="quantita"
                 className={styles.input}
                 min="1"
-                max={maxAcquistabili}
+                max={disponibili}
                 required
                 value={quantita}
                 onChange={(e) => setQuantita(e.target.value)}
