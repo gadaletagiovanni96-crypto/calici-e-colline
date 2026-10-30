@@ -113,17 +113,23 @@ export default function Verifica() {
   };
 
   return (
-    <div className="mx-auto max-w-[520px] p-4">
-      <h1 className="mb-2 text-[2rem] font-bold text-vino">Verifica biglietto</h1>
-      <p className="mb-6 text-muted">Scansiona il QR oppure inserisci il codice del biglietto.</p>
+    <div className="anim-salita mx-auto grid max-w-5xl items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)]">
+      <figure className="overflow-hidden rounded-[32px] shadow-card">
+        <img src="/immagini/bottiglia.jpg" alt="Bottiglia e calice" className="h-56 w-full object-cover lg:h-full lg:min-h-[520px]" />
+      </figure>
 
-      {errore && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
+      <div>
+      <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-vino">/ INGRESSO</p>
+      <h1 className="mb-2 text-4xl font-bold tracking-tight text-testo">Verifica biglietto</h1>
+      <p className="mb-6 text-testo/75">Scansiona il QR oppure inserisci il codice del biglietto.</p>
 
-      <form className="rounded-2xl border border-bordo bg-superficie p-6 shadow-card" onSubmit={handleSubmit}>
-        <label className="mb-1.5 block font-semibold" htmlFor="codice">Codice</label>
+      {errore && <div className="mb-4 rounded-2xl bg-red-50 p-4 text-center text-red-700">{errore}</div>}
+
+      <form className="rounded-[28px] bg-white p-6 shadow-card" onSubmit={handleSubmit}>
+        <label className="mb-1.5 block text-xs font-semibold tracking-[0.14em] text-muted uppercase" htmlFor="codice">Codice</label>
         <input
           id="codice"
-          className="mb-4 w-full rounded-lg border border-bordo px-3 py-3 font-sans outline-none focus:border-vino"
+          className="mb-4 w-full rounded-2xl border border-transparent bg-sfondo px-4 py-3 font-sans outline-none focus:border-vino focus:bg-white"
           value={codice}
           onChange={(e) => setCodice(e.target.value)}
           placeholder="Codice letto dal QR"
@@ -131,14 +137,14 @@ export default function Verifica() {
         />
         <button
           type="submit"
-          className="w-full cursor-pointer rounded-lg bg-oliva py-3.5 font-bold text-superficie disabled:cursor-not-allowed disabled:bg-muted"
+          className="w-full cursor-pointer rounded-full bg-vino py-3.5 text-sm font-semibold tracking-[0.12em] text-white uppercase transition duration-300 hover:-translate-y-0.5 disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-muted"
           disabled={invio}
         >
           {invio ? 'Verifica...' : 'Controlla biglietto'}
         </button>
         <button
           type="button"
-          className="mt-3 w-full cursor-pointer rounded-lg border border-vino bg-transparent py-3.5 font-bold text-vino"
+          className="mt-3 w-full cursor-pointer rounded-full bg-sfondo py-3.5 text-sm font-semibold tracking-[0.12em] text-testo uppercase transition duration-300 hover:-translate-y-0.5"
           onClick={() => setFotocameraAttiva((attiva) => !attiva)}
         >
           {fotocameraAttiva ? 'Chiudi fotocamera' : 'Scansiona con la fotocamera'}
@@ -151,8 +157,8 @@ export default function Verifica() {
 
       {esito && (
         <div className={esito.valido
-          ? 'mt-6 rounded-lg bg-green-100 p-4 text-center text-green-800'
-          : 'mt-6 rounded-lg bg-red-100 p-4 text-center text-red-700'}
+          ? 'mt-6 rounded-2xl bg-green-50 p-4 text-center text-green-800'
+          : 'mt-6 rounded-2xl bg-red-50 p-4 text-center text-red-700'}
         >
           <p className="mb-1 font-bold">{esito.messaggio}</p>
           {esito.dettagli && (
@@ -163,6 +169,7 @@ export default function Verifica() {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }
