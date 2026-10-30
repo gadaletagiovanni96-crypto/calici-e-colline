@@ -4,7 +4,8 @@ export const UtenteContext = createContext(null);
 
 // Il token resta in localStorage perché l'interceptor di axios non è un componente React
 export function UtenteProvider({ children }) {
-  const [utente, setUtente] = useState(() => {
+  //inizializza l'utente con i dati del localStorage
+  const [utente, setUtente] = useState(() => { //questa arrow function viene eseguita solo una volta all'inizio
     const token = localStorage.getItem('token');
     const ruolo = localStorage.getItem('ruolo');
     const nome = localStorage.getItem('nome');
@@ -21,6 +22,7 @@ export function UtenteProvider({ children }) {
   const esci = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('ruolo');
+    localStorage.removeItem('nome');
     setUtente(null);
   }, []);
 
