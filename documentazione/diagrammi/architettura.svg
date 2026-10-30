@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="620" viewBox="0 0 980 620" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="980" height="620" fill="#ffffff"/>
+  <text x="490" y="36" text-anchor="middle" font-size="20" font-weight="600" fill="#1e3a5f">Architettura</text>
+  <rect x="300" y="60" width="380" height="150" rx="8" fill="#f4f7fb" stroke="#1e3a5f" stroke-width="1.6"/><text x="316" y="82" font-size="14" font-weight="600" fill="#1e3a5f">Frontend — React (SPA)</text><text x="316" y="116" font-size="13" fill="#142033">Pagine e route protette</text><text x="316" y="136" font-size="13" fill="#142033">UtenteContext e EventoContext</text><text x="316" y="156" font-size="13" fill="#142033">Axios: aggiunge il token JWT</text><text x="316" y="176" font-size="13" fill="#142033">Porta di sviluppo: 5173</text>
+  <line x1="490" y1="210" x2="490" y2="268" stroke="#1e3a5f" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="504" y="242" font-size="13" fill="#5c6b7a">HTTP JSON, header Authorization</text>
+  <rect x="300" y="270" width="380" height="170" rx="8" fill="#fff" stroke="#1e3a5f" stroke-width="1.6"/><text x="316" y="292" font-size="14" font-weight="600" fill="#1e3a5f">Backend — Express</text><text x="316" y="326" font-size="13" fill="#142033">Route sotto /api</text><text x="316" y="346" font-size="13" fill="#142033">Middleware: token e ruolo</text><text x="316" y="366" font-size="13" fill="#142033">Controller: regole applicative</text><text x="316" y="386" font-size="13" fill="#142033">Model Mongoose</text><text x="316" y="406" font-size="13" fill="#142033">Porta: 5001</text>
+  <line x1="360" y1="440" x2="200" y2="500" stroke="#1e3a5f" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="620" y1="440" x2="760" y2="500" stroke="#1e3a5f" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="60" y="500" width="250" height="80" rx="8" fill="#f4f7fb" stroke="#1e3a5f" stroke-width="1.6"/><text x="76" y="522" font-size="14" font-weight="600" fill="#1e3a5f">MongoDB</text><text x="76" y="556" font-size="13" fill="#142033">Utente, Evento, Ordine, Ticket</text>
+  <rect x="670" y="500" width="250" height="80" rx="8" fill="#f4f7fb" stroke="#1e3a5f" stroke-width="1.6"/><text x="686" y="522" font-size="14" font-weight="600" fill="#1e3a5f">Server SMTP</text><text x="686" y="556" font-size="13" fill="#142033">Mail di conferma con QR</text>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1e3a5f"/>
+    </marker>
+  </defs>
+</svg>
