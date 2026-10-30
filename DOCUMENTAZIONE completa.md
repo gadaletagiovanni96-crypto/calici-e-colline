@@ -84,7 +84,7 @@ Il backend è CommonJS: `require` / `module.exports`, `"type": "commonjs"`.
 | `vite` + `@vitejs/plugin-react` | Dev server e build. |
 | `react-router-dom` 7 | URL delle pagine (`/`, `/login`, `/checkout`, …). |
 | `axios` | Chiamate HTTP verso il backend. |
-| CSS Modules (`*.module.css`) | Stili legati a una pagina, senza un framework CSS. |
+| `tailwindcss` + `@tailwindcss/vite` | Classi di stile nei componenti. Il tema (colori vino e oliva) è in `styles/global.css`. |
 | ESLint | Controllo statico, non entra nel funzionamento dell'app. |
 
 Il frontend è ESM: `import` / `export`, `"type": "module"`.
@@ -126,8 +126,8 @@ calici-e-colline/
         ├── context/
         │   ├── UtenteContext.jsx
         │   └── EventoContext.jsx
-        ├── pages/             ← una schermata per file, più il suo CSS module
-        └── styles/            ← global.css e variables.css
+        ├── pages/             ← una schermata per file
+        └── styles/            ← global.css (Tailwind e tema)
 ```
 
 ---
@@ -728,7 +728,7 @@ UtenteProvider
 
 L'ordine conta. `BarraNavigazione` chiama `useNavigate()`, quindi deve stare **dentro** `Router`. I context stanno fuori dal router così login e pagine li condividono.
 
-Gli stili globali (`styles/global.css`) azzerano margin e importano le variabili colore. Le pagine usano CSS Modules (`import styles from './Login.module.css'`): la classe `container` di Login non collide con quella di Checkout, perché Vite le rinomina in build.
+Gli stili stanno nelle classi Tailwind dei componenti. `styles/global.css` importa Tailwind e definisce il tema (vino, oliva, sfondo, ombre). Il plugin `@tailwindcss/vite` le genera in build.
 
 ---
 

@@ -4,6 +4,7 @@
  *   post:
  *     summary: Registra un nuovo utente
  *     tags: [Autenticazione]
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
@@ -34,6 +35,7 @@
  *   post:
  *     summary: Effettua l'accesso
  *     tags: [Autenticazione]
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:

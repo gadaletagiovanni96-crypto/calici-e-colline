@@ -2,10 +2,9 @@
  * @swagger
  * /api/evento:
  *   get:
- *     summary: Recupera i dettagli dell'evento (Richiede Login)
+ *     summary: Recupera i dettagli dell'evento (accesso libero)
  *     tags: [Evento]
- *     security:
- *       - bearerAuth: []
+ *     security: []
  *     responses:
  *       200:
  *         description: Dettagli evento recuperati

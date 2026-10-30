@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="608" viewBox="0 0 1100 608" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1e3a5f"/>
+    </marker>
+    <marker id="arrBack" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+      <path d="M8,0 L0,3 L8,6 Z" fill="#5c6b7a"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="608" fill="#ffffff"/>
+  <text x="550.0" y="36" text-anchor="middle" font-size="20" font-weight="600" fill="#1e3a5f">Sequenza: verifica di un biglietto</text>
+  <rect x="87.5" y="78" width="160.0" height="42" rx="4" fill="#1e3a5f"/><text x="167.5" y="104" text-anchor="middle" font-size="13" fill="#fff">Verifica.jsx</text><line x1="167.5" y1="120" x2="167.5" y2="572" stroke="#c5d0dc" stroke-dasharray="4 4"/><rect x="342.5" y="78" width="160.0" height="42" rx="4" fill="#1e3a5f"/><text x="422.5" y="104" text-anchor="middle" font-size="13" fill="#fff">Middleware</text><line x1="422.5" y1="120" x2="422.5" y2="572" stroke="#c5d0dc" stroke-dasharray="4 4"/><rect x="597.5" y="78" width="160.0" height="42" rx="4" fill="#1e3a5f"/><text x="677.5" y="104" text-anchor="middle" font-size="13" fill="#fff">verificaTicket</text><line x1="677.5" y1="120" x2="677.5" y2="572" stroke="#c5d0dc" stroke-dasharray="4 4"/><rect x="852.5" y="78" width="160.0" height="42" rx="4" fill="#1e3a5f"/><text x="932.5" y="104" text-anchor="middle" font-size="13" fill="#fff">MongoDB</text><line x1="932.5" y1="120" x2="932.5" y2="572" stroke="#c5d0dc" stroke-dasharray="4 4"/>
+  <line x1="167.5" y1="156" x2="416.5" y2="156" stroke="#1e3a5f" stroke-width="1.3" marker-end="url(#arr)"/><text x="295.0" y="148" text-anchor="middle" font-size="13" fill="#142033">1. post('/operatore/verifica', { codice })</text><line x1="422.5" y1="208" x2="671.5" y2="208" stroke="#1e3a5f" stroke-width="1.3" marker-end="url(#arr)"/><text x="550.0" y="200" text-anchor="middle" font-size="13" fill="#142033">2. token valido, ruolo ammesso</text><line x1="677.5" y1="260" x2="926.5" y2="260" stroke="#1e3a5f" stroke-width="1.3" marker-end="url(#arr)"/><text x="805.0" y="252" text-anchor="middle" font-size="13" fill="#142033">3. findOne({ codice }) e dati acquirente</text><line x1="932.5" y1="312" x2="683.5" y2="312" stroke="#5c6b7a" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#arrBack)"/><text x="805.0" y="304" text-anchor="middle" font-size="13" fill="#142033">4. ticket, oppure nessun risultato</text>
+  <rect x="657.5" y="374" width="406.5" height="168" fill="#fff" stroke="#1e3a5f" stroke-width="1.2"/>
+<rect x="657.5" y="374" width="36" height="18" fill="#1e3a5f"/>
+<text x="663.5" y="387" font-size="11" fill="#fff">alt</text>
+<text x="667.5" y="410" font-size="12" font-style="italic" fill="#5c6b7a">[codice assente]</text><text x="667.5" y="428" font-size="13" fill="#142033">5a. 404  valido: false</text><line x1="657.5" y1="430" x2="1064" y2="430" stroke="#9aa8b8" stroke-dasharray="3 3"/><text x="667.5" y="446" font-size="12" font-style="italic" fill="#5c6b7a">[già utilizzato]</text><text x="667.5" y="466" font-size="13" fill="#142033">5b. 409  valido: false, con data della scansione</text><line x1="657.5" y1="480" x2="1064" y2="480" stroke="#9aa8b8" stroke-dasharray="3 3"/><text x="667.5" y="496" font-size="12" font-style="italic" fill="#5c6b7a">[biglietto nuovo]</text><text x="667.5" y="516" font-size="13" fill="#142033">5c. utilizzato = true, salva, 200 valido: true</text>
+</svg>
