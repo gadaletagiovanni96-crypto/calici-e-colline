@@ -21,7 +21,7 @@ export default function Login() {
       // Chiama la rotta backend che abbiamo creato in precedenza
       const response = await api.post('/auth/login', { email, password });
       
-      accedi(response.data.token, response.data.utente.ruolo);
+      accedi(response.data.token, response.data.utente.ruolo, response.data.utente.nome);
 
       const ruolo = response.data.utente.ruolo;
       // Operatore e amministratore non passano dal checkout

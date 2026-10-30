@@ -7,13 +7,15 @@ export function UtenteProvider({ children }) {
   const [utente, setUtente] = useState(() => {
     const token = localStorage.getItem('token');
     const ruolo = localStorage.getItem('ruolo');
-    return token ? { token, ruolo } : null;
+    const nome = localStorage.getItem('nome');
+    return token ? { token, ruolo, nome } : null;
   });
 
-  const accedi = useCallback((token, ruolo) => {
+  const accedi = useCallback((token, ruolo, nome) => {
     localStorage.setItem('token', token);
     localStorage.setItem('ruolo', ruolo);
-    setUtente({ token, ruolo });
+    localStorage.setItem('nome', nome);
+    setUtente({ token, ruolo, nome });
   }, []);
 
   const esci = useCallback(() => {

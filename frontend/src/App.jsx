@@ -11,7 +11,7 @@ import { UtenteContext, UtenteProvider } from './context/UtenteContext';
 import { EventoProvider } from './context/EventoContext';
 
 function BarraNavigazione() {
-  const { utente, esci } = useContext(UtenteContext);
+  const { utente, esci} = useContext(UtenteContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -27,7 +27,7 @@ function BarraNavigazione() {
       display: 'flex', 
       alignItems: 'center',
       gap: '1.5rem',
-      boxShadow: 'var(--shadow-sm)'
+      boxShadow: 'var(--shadow-sm)',
     }}>
       <Link to="/">Evento</Link>
       {/* Lo storico è solo per il ruolo utente: gli altri non acquistano */}
@@ -35,6 +35,7 @@ function BarraNavigazione() {
       {utente?.ruolo === 'operatore' && <Link to="/verifica">Verifica biglietti</Link>}
       {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
       {!utente && <Link to="/login">Accesso</Link>}
+      {utente && <p>Benvenuto: {utente.nome}</p>}
       {utente && (
         <button
           type="button"
