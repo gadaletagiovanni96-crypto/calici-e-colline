@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import api from '../services/api';
 
 export const EventoContext = createContext(null);
@@ -8,7 +8,7 @@ export function EventoProvider({ children }) {
   const [caricamento, setCaricamento] = useState(true);
   const [errore, setErrore] = useState('');
 
-  const ricarica = useCallback(async () => {
+  const ricarica = async () => {
     try {
       const response = await api.get('/evento');
       setEvento(response.data);
@@ -18,11 +18,11 @@ export function EventoProvider({ children }) {
     } finally {
       setCaricamento(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     ricarica();
-  }, [ricarica]);
+  }, []);
 
   return (
     <EventoContext.Provider value={{ evento, caricamento, errore, ricarica }}>

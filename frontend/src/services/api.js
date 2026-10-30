@@ -6,12 +6,12 @@ const api = axios.create({
 
 // Interceptor: prima di far partire ogni richiesta, controlla se c'è un token e lo aggiunge
 api.interceptors.request.use(
-  (config) => {
+  (request) => {
     const token = localStorage.getItem('token'); // token salvato
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      request.headers.Authorization = `Bearer ${token}`;
     }
-    return config;
+    return request;
   },
   (error) => {
     return Promise.reject(error);
