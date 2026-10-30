@@ -2,7 +2,6 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
-import styles from './Verifica.module.css';
 
 export default function Verifica() {
   const [codice, setCodice] = useState('');
@@ -114,41 +113,48 @@ export default function Verifica() {
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Verifica biglietto</h1>
-      <p className={styles.intro}>Scansiona il QR oppure inserisci il codice del biglietto.</p>
+    <div className="mx-auto max-w-[520px] p-4">
+      <h1 className="mb-2 text-[2rem] font-bold text-vino">Verifica biglietto</h1>
+      <p className="mb-6 text-muted">Scansiona il QR oppure inserisci il codice del biglietto.</p>
 
-      {errore && <div className={styles.error}>{errore}</div>}
+      {errore && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
 
-      <form className={styles.card} onSubmit={handleSubmit}>
-        <label className={styles.label} htmlFor="codice">Codice</label>
+      <form className="rounded-2xl border border-bordo bg-superficie p-6 shadow-card" onSubmit={handleSubmit}>
+        <label className="mb-1.5 block font-semibold" htmlFor="codice">Codice</label>
         <input
           id="codice"
-          className={styles.input}
+          className="mb-4 w-full rounded-lg border border-bordo px-3 py-3 font-sans outline-none focus:border-vino"
           value={codice}
           onChange={(e) => setCodice(e.target.value)}
           placeholder="Codice letto dal QR"
           autoComplete="off"
         />
-        <button type="submit" className={styles.button} disabled={invio}>
+        <button
+          type="submit"
+          className="w-full cursor-pointer rounded-lg bg-oliva py-3.5 font-bold text-superficie disabled:cursor-not-allowed disabled:bg-muted"
+          disabled={invio}
+        >
           {invio ? 'Verifica...' : 'Controlla biglietto'}
         </button>
         <button
           type="button"
-          className={styles.secondaryButton}
+          className="mt-3 w-full cursor-pointer rounded-lg border border-vino bg-transparent py-3.5 font-bold text-vino"
           onClick={() => setFotocameraAttiva((attiva) => !attiva)}
         >
           {fotocameraAttiva ? 'Chiudi fotocamera' : 'Scansiona con la fotocamera'}
         </button>
 
         {fotocameraAttiva && (
-          <video ref={videoRef} className={styles.video} muted playsInline />
+          <video ref={videoRef} className="mt-4 w-full rounded-lg bg-black" muted playsInline />
         )}
       </form>
 
       {esito && (
-        <div className={esito.valido ? styles.valido : styles.nonValido}>
-          <p className={styles.esitoTitolo}>{esito.messaggio}</p>
+        <div className={esito.valido
+          ? 'mt-6 rounded-lg bg-green-100 p-4 text-center text-green-800'
+          : 'mt-6 rounded-lg bg-red-100 p-4 text-center text-red-700'}
+        >
+          <p className="mb-1 font-bold">{esito.messaggio}</p>
           {esito.dettagli && (
             <p>{esito.dettagli.acquirente} · {esito.dettagli.email}</p>
           )}

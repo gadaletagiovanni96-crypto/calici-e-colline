@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
-import styles from './Acquisti.module.css';
 
 // Il QR non è salvato nel database: il servizio esterno disegna l'immagine a partire dal codice del ticket
 function urlQr(codice) {
@@ -41,42 +40,43 @@ export default function Acquisti() {
     caricaAcquisti();
   }, [navigate, esci]);
 
-  if (caricamento) return <div className={styles.message}>Caricamento acquisti...</div>;
+  if (caricamento) return <div className="p-8 text-center text-lg text-muted">Caricamento acquisti...</div>;
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>I miei acquisti</h1>
+    <div className="mx-auto max-w-[900px] p-4">
+      <h1 className="mb-6 text-[2rem] font-bold text-vino">I miei acquisti</h1>
 
-      {errore && <div className={styles.error}>{errore}</div>}
+      {errore && <div className="mb-8 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
 
       {/* Lista vuota: l'utente è loggato ma non ha ancora ordini */}
       {!errore && acquisti.length === 0 && (
-        <p className={styles.message}>Non hai ancora acquistato biglietti.</p>
+        <p className="p-8 text-center text-lg text-muted">Non hai ancora acquistato biglietti.</p>
       )}
 
       {/* Un riquadro per ordine, e dentro un QR per ogni biglietto */}
       {acquisti.map((ordine) => (
-        <article key={ordine.id} className={styles.card}>
-          <h2 className={styles.orderTitle}>
+        <article key={ordine.id} className="mb-6 rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+          <h2 className="mb-1 text-xl">
             Ordine del {new Date(ordine.dataAcquisto).toLocaleString('it-IT', {
               day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
             })}
           </h2>
-          <p className={styles.orderMeta}>
+          <p className="mb-5 text-muted">
             {ordine.quantita} {ordine.quantita === 1 ? 'biglietto' : 'biglietti'} · € {Number(ordine.importoTotale).toFixed(2)}
           </p>
 
-          <div className={styles.tickets}>
+          <div className="flex flex-wrap gap-4">
             {ordine.tickets.map((ticket, indice) => (
-              <div key={ticket._id} className={styles.ticket}>
+              <div key={ticket._id} className="flex flex-col items-center gap-1.5 rounded-lg border border-bordo bg-sfondo p-4">
                 <img
+                  className="rounded bg-white"
                   src={urlQr(ticket.codice)}
                   alt={`QR code del biglietto ${indice + 1}`}
                   width="160"
                   height="160"
                 />
-                <p>Biglietto {indice + 1}</p>
-                <code>{ticket.codice}</code>
+                <p className="font-semibold">Biglietto {indice + 1}</p>
+                <code className="max-w-[180px] text-center text-xs break-all text-muted">{ticket.codice}</code>
               </div>
             ))}
           </div>

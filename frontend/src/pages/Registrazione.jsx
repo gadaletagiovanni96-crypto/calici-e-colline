@@ -2,7 +2,10 @@ import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
-import styles from './Login.module.css';
+
+const label = 'mb-2 text-sm font-semibold text-testo';
+const input =
+  'rounded-lg border border-bordo px-3 py-3 font-sans transition outline-none focus:border-vino';
 
 export default function Registrazione() {
   const [nome, setNome] = useState('');
@@ -44,18 +47,18 @@ export default function Registrazione() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h2 className={styles.title}>Registrazione</h2>
+    <div className="flex min-h-[80vh] items-center justify-center">
+      <div className="w-full max-w-md rounded-2xl border border-bordo bg-superficie p-10 shadow-card">
+        <h2 className="mb-8 text-center text-2xl font-bold text-vino">Registrazione</h2>
 
-        {errore && <div className={styles.errorBox}>{errore}</div>}
+        {errore && <div className="mb-5 rounded-lg bg-red-100 px-3 py-3 text-center text-sm text-red-700">{errore}</div>}
 
         <form onSubmit={handleRegistrazione}>
-          <div className={styles.formGroup}>
-            <label htmlFor="nome" className={styles.label}>Nome</label>
+          <div className="mb-5 flex flex-col">
+            <label htmlFor="nome" className={label}>Nome</label>
             <input
               id="nome"
-              className={styles.input}
+              className={input}
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               required
@@ -63,11 +66,11 @@ export default function Registrazione() {
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="cognome" className={styles.label}>Cognome</label>
+          <div className="mb-5 flex flex-col">
+            <label htmlFor="cognome" className={label}>Cognome</label>
             <input
               id="cognome"
-              className={styles.input}
+              className={input}
               value={cognome}
               onChange={(e) => setCognome(e.target.value)}
               required
@@ -75,12 +78,12 @@ export default function Registrazione() {
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>Email</label>
+          <div className="mb-5 flex flex-col">
+            <label htmlFor="email" className={label}>Email</label>
             <input
               id="email"
               type="email"
-              className={styles.input}
+              className={input}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -88,12 +91,12 @@ export default function Registrazione() {
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="password" className={styles.label}>Password</label>
+          <div className="mb-5 flex flex-col">
+            <label htmlFor="password" className={label}>Password</label>
             <input
               id="password"
               type="password"
-              className={styles.input}
+              className={input}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -101,12 +104,12 @@ export default function Registrazione() {
             />
           </div>
 
-          <div className={styles.formGroup}>
-            <label htmlFor="confermaPassword" className={styles.label}>Conferma password</label>
+          <div className="mb-5 flex flex-col">
+            <label htmlFor="confermaPassword" className={label}>Conferma password</label>
             <input
               id="confermaPassword"
               type="password"
-              className={styles.input}
+              className={input}
               value={confermaPassword}
               onChange={(e) => setConfermaPassword(e.target.value)}
               required
@@ -114,12 +117,16 @@ export default function Registrazione() {
             />
           </div>
 
-          <button type="submit" className={styles.button} disabled={invio}>
+          <button
+            type="submit"
+            className="mt-4 w-full cursor-pointer rounded-lg bg-vino py-3 font-semibold text-superficie transition hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
+            disabled={invio}
+          >
             {invio ? 'Registrazione...' : 'Crea account'}
           </button>
         </form>
 
-        <Link to="/login" state={location.state} className={styles.switchLink}>
+        <Link to="/login" state={location.state} className="mt-5 block text-center text-sm font-semibold text-vino">
           Hai già un account? Accedi
         </Link>
       </div>

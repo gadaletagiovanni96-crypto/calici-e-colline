@@ -25,7 +25,7 @@ Alla registrazione il ruolo assegnato è sempre `utente`. Gli account di operato
 - Vite
 - React Router, per la navigazione tra le pagine
 - Axios, per le chiamate all’API
-- CSS Modules, per gli stili delle singole pagine
+- Tailwind CSS, per gli stili delle pagine
 
 **Backend**
 

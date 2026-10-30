@@ -44,4 +44,4 @@ All'avvio, se in `localStorage` ci sono `token` e `ruolo`, `utente` è l'oggetto
 
 **Dashboard.** Al mount chiama `GET /api/admin/dashboard` e mostra tre valori (biglietti venduti, posti rimasti, incasso) e la tabella degli acquirenti. Non modifica l'evento e non crea operatori: quelle operazioni restano sulle API descritte in [api.md](api.md).
 
-Gli stili di ogni pagina stanno in un CSS Module accanto al componente (`Login.module.css`, `Evento.module.css`, e gli altri). I colori comuni sono in `styles/variables.css`, importato dagli stili globali.
+Gli stili sono classi Tailwind nei componenti. I colori del tema (vino, oliva, sfondo) stanno in `styles/global.css`, caricato da `main.jsx`.

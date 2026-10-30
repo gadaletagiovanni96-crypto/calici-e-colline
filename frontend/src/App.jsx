@@ -10,6 +10,8 @@ import Verifica from './pages/Verifica';
 import { UtenteContext, UtenteProvider } from './context/UtenteContext';
 import { EventoProvider } from './context/EventoContext';
 
+const linkNav = 'font-medium transition hover:opacity-80';
+
 function BarraNavigazione() {
   const { utente, esci} = useContext(UtenteContext);
   const navigate = useNavigate();
@@ -20,35 +22,19 @@ function BarraNavigazione() {
   };
 
   return (
-    <nav style={{ 
-      padding: '1rem 2rem', 
-      backgroundColor: 'var(--color-primary)', 
-      color: 'var(--color-surface)', 
-      display: 'flex', 
-      alignItems: 'center',
-      gap: '1.5rem',
-      boxShadow: 'var(--shadow-sm)',
-    }}>
-      <Link to="/">Evento</Link>
+    <nav className="flex items-center gap-6 bg-vino px-8 py-4 text-superficie shadow-soft">
+      <Link to="/" className={linkNav}>Evento</Link>
       {/* Lo storico è solo per il ruolo utente: gli altri non acquistano */}
-      {utente?.ruolo === 'utente' && <Link to="/acquisti">I miei acquisti</Link>}
-      {utente?.ruolo === 'operatore' && <Link to="/verifica">Verifica biglietti</Link>}
-      {utente?.ruolo === 'amministratore' && <Link to="/dashboard">Dashboard</Link>}
-      {!utente && <Link to="/login">Accesso</Link>}
+      {utente?.ruolo === 'utente' && <Link to="/acquisti" className={linkNav}>I miei acquisti</Link>}
+      {utente?.ruolo === 'operatore' && <Link to="/verifica" className={linkNav}>Verifica biglietti</Link>}
+      {utente?.ruolo === 'amministratore' && <Link to="/dashboard" className={linkNav}>Dashboard</Link>}
+      {!utente && <Link to="/login" className={linkNav}>Accesso</Link>}
       {utente && <p>Benvenuto: {utente.nome}</p>}
       {utente && (
         <button
           type="button"
           onClick={handleLogout}
-          style={{
-            marginLeft: 'auto',
-            padding: '0.45rem 1rem',
-            backgroundColor: 'transparent',
-            border: '1px solid var(--color-surface)',
-            borderRadius: 'var(--radius-md)',
-            color: 'var(--color-surface)',
-            fontWeight: 600,
-          }}
+          className="ml-auto cursor-pointer rounded-lg border border-superficie bg-transparent px-4 py-2 font-semibold text-superficie transition hover:bg-white/10"
         >
           Esci
         </button>
@@ -88,7 +74,7 @@ function App() {
         <Router>
           <BarraNavigazione />
 
-          <main style={{ padding: '2rem' }}>
+          <main className="p-8">
             <Routes>
               <Route path="/" element={<Evento />} />
               <Route path="/login" element={<Login />} />

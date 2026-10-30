@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
-import styles from './Dashboard.module.css';
 
 // datetime-local vuole "2026-10-27T18:00", senza il fuso dell'ISO del database
 function versoDataOraLocale(iso) {
@@ -12,6 +11,10 @@ function versoDataOraLocale(iso) {
   const dueCifre = (n) => String(n).padStart(2, '0');
   return `${data.getFullYear()}-${dueCifre(data.getMonth() + 1)}-${dueCifre(data.getDate())}T${dueCifre(data.getHours())}:${dueCifre(data.getMinutes())}`;
 }
+
+const label = 'mb-1.5 text-sm font-semibold';
+const campo =
+  'rounded-lg border border-bordo px-3 py-3 font-sans text-base outline-none focus:border-vino';
 
 export default function Dashboard() {
   const [dati, setDati] = useState(null);
@@ -114,97 +117,101 @@ export default function Dashboard() {
     }
   };
 
-  if (caricamento) return <div className={styles.message}>Caricamento statistiche in corso...</div>;
+  if (caricamento) return <div className="p-8 text-center text-lg text-muted">Caricamento statistiche in corso...</div>;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Dashboard Amministratore</h1>
+    <div className="mx-auto max-w-6xl p-4">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="text-[2rem] font-bold text-vino">Dashboard Amministratore</h1>
       </div>
 
-      {errore && <div className={styles.error}>{errore}</div>}
+      {errore && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
 
       {dati && (
         <>
           {/* Griglia Statistiche */}
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <span className={styles.statValue}>{dati.statistiche.bigliettiVenduti}</span>
-              <span className={styles.statLabel}>Biglietti Venduti</span>
+          <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
+            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+              <span className="mb-2 text-[2.5rem] font-bold text-vino">{dati.statistiche.bigliettiVenduti}</span>
+              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Biglietti Venduti</span>
             </div>
-            <div className={styles.statCard}>
-              <span className={styles.statValue}>{dati.statistiche.bigliettiDisponibili}</span>
-              <span className={styles.statLabel}>Biglietti Disponibili</span>
+            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+              <span className="mb-2 text-[2.5rem] font-bold text-vino">{dati.statistiche.bigliettiDisponibili}</span>
+              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Biglietti Disponibili</span>
             </div>
-            <div className={styles.statCard}>
-              <span className={styles.statValue}>€ {dati.statistiche.ricavoTotale.toFixed(2)}</span>
-              <span className={styles.statLabel}>Ricavo Totale</span>
+            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+              <span className="mb-2 text-[2.5rem] font-bold text-vino">€ {dati.statistiche.ricavoTotale.toFixed(2)}</span>
+              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Ricavo Totale</span>
             </div>
           </div>
 
-          <h2 className={styles.sectionTitle}>Modifica evento</h2>
-          <form className={styles.form} onSubmit={handleSalva}>
-            {erroreForm && <div className={styles.error}>{erroreForm}</div>}
-            {messaggio && <div className={styles.success}>{messaggio}</div>}
+          <h2 className="mb-4 text-2xl font-semibold text-testo">Modifica evento</h2>
+          <form className="mb-12 rounded-2xl border border-bordo bg-superficie p-6 shadow-card" onSubmit={handleSalva}>
+            {erroreForm && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{erroreForm}</div>}
+            {messaggio && <div className="mb-4 rounded-lg bg-green-100 p-4 text-center text-green-800">{messaggio}</div>}
 
-            <div className={styles.formGrid}>
-              <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="titolo">Titolo</label>
-                <input id="titolo" name="titolo" className={styles.input} value={form?.titolo ?? ''} onChange={handleChange} required />
+            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+              <div className="mb-4 flex flex-col">
+                <label className={label} htmlFor="titolo">Titolo</label>
+                <input id="titolo" name="titolo" className={campo} value={form?.titolo ?? ''} onChange={handleChange} required />
               </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="luogo">Luogo</label>
-                <input id="luogo" name="luogo" className={styles.input} value={form?.luogo ?? ''} onChange={handleChange} required />
+              <div className="mb-4 flex flex-col">
+                <label className={label} htmlFor="luogo">Luogo</label>
+                <input id="luogo" name="luogo" className={campo} value={form?.luogo ?? ''} onChange={handleChange} required />
               </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="dataOra">Data e ora</label>
-                <input id="dataOra" name="dataOra" type="datetime-local" className={styles.input} value={form?.dataOra ?? ''} onChange={handleChange} required />
+              <div className="mb-4 flex flex-col">
+                <label className={label} htmlFor="dataOra">Data e ora</label>
+                <input id="dataOra" name="dataOra" type="datetime-local" className={campo} value={form?.dataOra ?? ''} onChange={handleChange} required />
               </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="prezzo">Prezzo (€)</label>
-                <input id="prezzo" name="prezzo" type="number" min="0" step="0.01" className={styles.input} value={form?.prezzo ?? ''} onChange={handleChange} required />
+              <div className="mb-4 flex flex-col">
+                <label className={label} htmlFor="prezzo">Prezzo (€)</label>
+                <input id="prezzo" name="prezzo" type="number" min="0" step="0.01" className={campo} value={form?.prezzo ?? ''} onChange={handleChange} required />
               </div>
-              <div className={styles.formGroup}>
-                <label className={styles.label} htmlFor="ticketDisponibili">Biglietti disponibili</label>
-                <input id="ticketDisponibili" name="ticketDisponibili" type="number" min="0" step="1" className={styles.input} value={form?.ticketDisponibili ?? ''} onChange={handleChange} required />
+              <div className="mb-4 flex flex-col">
+                <label className={label} htmlFor="ticketDisponibili">Biglietti disponibili</label>
+                <input id="ticketDisponibili" name="ticketDisponibili" type="number" min="0" step="1" className={campo} value={form?.ticketDisponibili ?? ''} onChange={handleChange} required />
               </div>
             </div>
 
-            <div className={styles.formGroup}>
-              <label className={styles.label} htmlFor="descrizione">Descrizione</label>
-              <textarea id="descrizione" name="descrizione" className={styles.textarea} value={form?.descrizione ?? ''} onChange={handleChange} required />
+            <div className="mb-4 flex flex-col">
+              <label className={label} htmlFor="descrizione">Descrizione</label>
+              <textarea id="descrizione" name="descrizione" className={`${campo} min-h-[110px] resize-y`} value={form?.descrizione ?? ''} onChange={handleChange} required />
             </div>
 
-            <button type="submit" className={styles.saveButton} disabled={salvataggio || !form}>
+            <button
+              type="submit"
+              className="cursor-pointer rounded-lg bg-vino px-6 py-3 font-bold text-superficie transition hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
+              disabled={salvataggio || !form}
+            >
               {salvataggio ? 'Salvataggio...' : 'Salva modifiche'}
             </button>
           </form>
 
           {/* Tabella Acquirenti */}
-          <h2 className={styles.sectionTitle}>Ultimi Acquirenti</h2>
-          <div className={styles.tableContainer}>
-            <table className={styles.table}>
+          <h2 className="mb-4 text-2xl font-semibold text-testo">Ultimi Acquirenti</h2>
+          <div className="overflow-x-auto rounded-2xl border border-bordo bg-superficie shadow-card">
+            <table className="w-full border-collapse [&_tbody_tr:last-child_td]:border-b-0">
               <thead>
                 <tr>
-                  <th className={styles.th}>Nome e Cognome</th>
-                  <th className={styles.th}>Email</th>
-                  <th className={styles.th}>Quantità</th>
-                  <th className={styles.th}>Data Acquisto</th>
+                  <th className="border-b border-bordo bg-sfondo px-6 py-4 text-left text-sm font-semibold text-muted uppercase">Nome e Cognome</th>
+                  <th className="border-b border-bordo bg-sfondo px-6 py-4 text-left text-sm font-semibold text-muted uppercase">Email</th>
+                  <th className="border-b border-bordo bg-sfondo px-6 py-4 text-left text-sm font-semibold text-muted uppercase">Quantità</th>
+                  <th className="border-b border-bordo bg-sfondo px-6 py-4 text-left text-sm font-semibold text-muted uppercase">Data Acquisto</th>
                 </tr>
               </thead>
               <tbody>
                 {dati.acquirenti.length > 0 ? (
                   dati.acquirenti.map((acquirente) => (
                     <tr key={acquirente.idOrdine}>
-                      <td className={styles.td}>{acquirente.nome} {acquirente.cognome}</td>
-                      <td className={styles.td}>{acquirente.email}</td>
-                      <td className={styles.td}>{acquirente.quantita}</td>
-                      <td className={styles.td}>{new Date(acquirente.dataAcquisto).toLocaleDateString('it-IT')}</td>
+                      <td className="border-b border-bordo px-6 py-4 text-left text-base text-testo">{acquirente.nome} {acquirente.cognome}</td>
+                      <td className="border-b border-bordo px-6 py-4 text-left text-base text-testo">{acquirente.email}</td>
+                      <td className="border-b border-bordo px-6 py-4 text-left text-base text-testo">{acquirente.quantita}</td>
+                      <td className="border-b border-bordo px-6 py-4 text-left text-base text-testo">{new Date(acquirente.dataAcquisto).toLocaleDateString('it-IT')}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="4" className={styles.message}>Nessun ordine effettuato finora.</td>
+                    <td colSpan="4" className="p-8 text-center text-lg text-muted">Nessun ordine effettuato finora.</td>
                   </tr>
                 )}
               </tbody>

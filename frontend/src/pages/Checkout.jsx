@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
-import styles from './Checkout.module.css';
+
+const submitButton =
+  'mt-6 w-full cursor-pointer rounded-lg bg-oliva py-4 text-lg font-bold text-superficie transition hover:bg-oliva-scuro disabled:cursor-not-allowed disabled:bg-muted disabled:hover:bg-muted';
 
 export default function Checkout() {
   const { utente, esci } = useContext(UtenteContext);
@@ -70,19 +72,19 @@ export default function Checkout() {
 
   // Evento non caricato: mostra l'errore invece di restare in caricamento all'infinito
   if (!evento && (erroreEvento || erroreMsg)) {
-    return <div style={{ textAlign: 'center', padding: '3rem', color: 'red' }}>{erroreEvento || erroreMsg}</div>;
+    return <div className="p-12 text-center text-red-600">{erroreEvento || erroreMsg}</div>;
   }
 
   if (!evento) {
-    return <div style={{ textAlign: 'center', padding: '3rem' }}>Caricamento carrello...</div>;
+    return <div className="p-12 text-center">Caricamento carrello...</div>;
   }
 
   if (statoCaricamento === 'successo') {
     return (
-      <div className={styles.container}>
-        <div className={`${styles.card} ${styles.successMessage}`}>
-          <div className={styles.successIcon}>🍷</div>
-          <h2 className={styles.title}>Ordine Completato!</h2>
+      <div className="mx-auto my-8 max-w-3xl px-4">
+        <div className="rounded-2xl border border-bordo bg-superficie p-12 text-center shadow-soft">
+          <div className="mb-4 text-6xl">🍷</div>
+          <h2 className="mb-8 text-center text-[2rem] text-vino">Ordine Completato!</h2>
           <p>
             Hai acquistato {ordine?.ordine?.quantita ?? quantitaNum}{' '}
             {(ordine?.ordine?.quantita ?? quantitaNum) === 1 ? 'biglietto' : 'biglietti'} per un
@@ -90,10 +92,13 @@ export default function Checkout() {
           </p>
           {/* I QR non stanno nella mail: restano consultabili dalla pagina acquisti */}
           <p>I QR Code dei biglietti sono nella pagina dei tuoi acquisti.</p>
-          <button className={styles.submitButton} onClick={() => navigate('/acquisti')}>
+          <button className={submitButton} onClick={() => navigate('/acquisti')}>
             Vedi i biglietti
           </button>
-          <button className={styles.secondaryButton} onClick={() => navigate('/')}>
+          <button
+            className="mt-3 w-full cursor-pointer rounded-lg border border-vino bg-transparent py-4 text-lg font-bold text-vino"
+            onClick={() => navigate('/')}
+          >
             Torna alla Home
           </button>
         </div>
@@ -103,27 +108,27 @@ export default function Checkout() {
 
   const esaurito = evento.ticketDisponibili !== undefined && evento.ticketDisponibili < 1;
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Completa l'Acquisto</h1>
+    <div className="mx-auto my-8 max-w-3xl px-4">
+      <h1 className="mb-8 text-center text-[2rem] text-vino">Completa l'Acquisto</h1>
 
-      <form className={styles.grid} onSubmit={handleSubmit}>
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Biglietti</h2>
+      <form className="grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]" onSubmit={handleSubmit}>
+        <div className="rounded-2xl border border-bordo bg-superficie p-8 shadow-soft">
+          <h2 className="mb-6 border-b-2 border-sfondo pb-2 text-xl">Biglietti</h2>
 
           {statoCaricamento === 'errore' && (
-            <div style={{ color: 'red', marginBottom: '1rem' }}>{erroreMsg}</div>
+            <div className="mb-4 text-red-600">{erroreMsg}</div>
           )}
 
           {esaurito ? (
             <p>Biglietti esauriti.</p>
           ) : (
-            <div className={styles.formGroup}>
-              <label className={styles.label} htmlFor="quantita">Quantità biglietti</label>
+            <div className="mb-4 flex flex-col">
+              <label className="mb-1.5 text-sm font-semibold text-testo" htmlFor="quantita">Quantità biglietti</label>
               <input
                 id="quantita"
                 type="number"
                 name="quantita"
-                className={styles.input}
+                className="rounded-lg border border-bordo px-3 py-3 font-sans outline-none focus:border-vino"
                 min="1"
                 max={disponibili}
                 required
@@ -137,28 +142,28 @@ export default function Checkout() {
           )}
         </div>
 
-        <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Riepilogo</h2>
-          <div className={styles.summaryRow}>
+        <div className="rounded-2xl border border-bordo bg-superficie p-8 shadow-soft">
+          <h2 className="mb-6 border-b-2 border-sfondo pb-2 text-xl">Riepilogo</h2>
+          <div className="mb-4 flex justify-between text-muted">
             <span>Evento</span>
             <span>{evento.titolo}</span>
           </div>
-          <div className={styles.summaryRow}>
+          <div className="mb-4 flex justify-between text-muted">
             <span>Prezzo unitario</span>
             <span>€ {evento.prezzo.toFixed(2)}</span>
           </div>
-          <div className={styles.summaryRow}>
+          <div className="mb-4 flex justify-between text-muted">
             <span>Biglietti</span>
             <span>x {quantitaValida ? quantitaNum : 0}</span>
           </div>
-          <div className={styles.totalRow}>
+          <div className="mt-6 flex justify-between border-t border-bordo pt-4 text-xl font-bold text-vino">
             <span>Totale da pagare</span>
             <span>€ {totale.toFixed(2)}</span>
           </div>
 
           <button
             type="submit"
-            className={styles.submitButton}
+            className={submitButton}
             disabled={statoCaricamento === 'invio' || esaurito}
           >
             {statoCaricamento === 'invio' ? 'Elaborazione...' : 'Conferma Ordine'}
