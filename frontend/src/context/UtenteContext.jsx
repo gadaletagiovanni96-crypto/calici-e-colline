@@ -21,6 +21,7 @@ export function UtenteProvider({ children }) {
   const esci = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('ruolo');
+    localStorage.removeItem('nome');
     setUtente(null);
   }, []);
 

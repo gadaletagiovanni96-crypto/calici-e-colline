@@ -34,7 +34,7 @@ export default function Registrazione() {
 
       // Nessuna email di conferma: si entra subito con le stesse credenziali
       const response = await api.post('/auth/login', { email, password });
-      accedi(response.data.token, response.data.utente.ruolo);
+      accedi(response.data.token, response.data.utente.ruolo , response.data.utente.nome);
       navigate(location.state?.from || '/');
     } catch (err) {
       setErrore(err.response?.data?.errore || 'Errore durante la registrazione.');
