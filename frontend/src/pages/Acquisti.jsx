@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 // Il QR non è salvato nel database: il servizio esterno disegna l'immagine a partire dal codice del ticket
 function urlQr(codice) {
@@ -45,10 +46,10 @@ export default function Acquisti() {
   return (
     <div className="anim-salita mx-auto max-w-[900px]">
       <div className="mb-8 grid items-center gap-6 md:grid-cols-[180px_1fr]">
-        <img src="/immagini/bottiglia.jpg" alt="" className="h-36 w-full rounded-[24px] object-cover shadow-soft" />
+        <NaturaMorta className="anim-fluttua h-36 w-auto" />
         <div>
-          <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-vino">/ BIGLIETTI</p>
-          <h1 className="text-4xl font-bold tracking-tight text-testo">I miei acquisti</h1>
+          <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ biglietti</p>
+          <h1 className="text-4xl font-light tracking-wide text-testo">I miei acquisti</h1>
         </div>
       </div>
 
@@ -56,12 +57,12 @@ export default function Acquisti() {
 
       {/* Lista vuota: l'utente è loggato ma non ha ancora ordini */}
       {!errore && acquisti.length === 0 && (
-        <p className="rounded-[28px] bg-white p-8 text-center text-lg text-muted shadow-soft">Non hai ancora acquistato biglietti.</p>
+        <p className="bg-crema p-8 text-center text-lg text-muted">Non hai ancora acquistato biglietti.</p>
       )}
 
       {/* Un riquadro per ordine, e dentro un QR per ogni biglietto */}
       {acquisti.map((ordine) => (
-        <article key={ordine.id} className="anim-salita mb-6 rounded-[28px] bg-white p-6 shadow-card">
+        <article key={ordine.id} className="anim-salita mb-6 bg-crema p-6">
           <h2 className="mb-1 text-xl">
             Ordine del {new Date(ordine.dataAcquisto).toLocaleString('it-IT', {
               day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'

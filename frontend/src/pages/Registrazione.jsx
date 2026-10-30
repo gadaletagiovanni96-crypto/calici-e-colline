@@ -2,10 +2,11 @@ import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 const label = 'mb-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase';
 const input =
-  'rounded-2xl border border-transparent bg-sfondo px-4 py-3 font-sans transition outline-none focus:border-vino focus:bg-white';
+  'border border-bordo bg-white px-4 py-3 font-sans transition outline-none focus:border-vino';
 
 export default function Registrazione() {
   const [nome, setNome] = useState('');
@@ -48,12 +49,12 @@ export default function Registrazione() {
 
   return (
     <div className="anim-salita mx-auto grid max-w-5xl items-start gap-8 py-4 lg:grid-cols-2">
-      <div className="overflow-hidden rounded-[32px] shadow-card lg:sticky lg:top-6">
-        <img src="/immagini/colline.jpg" alt="Vigneti sulle colline" className="h-52 w-full object-cover lg:h-[680px]" />
+      <div className="flex justify-center lg:sticky lg:top-6">
+        <NaturaMorta className="anim-fluttua h-56 w-auto sm:h-80" />
       </div>
-      <div className="w-full rounded-[32px] bg-white p-8 shadow-card sm:p-10">
-        <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-vino">/ ACCOUNT</p>
-        <h2 className="mb-8 text-4xl font-bold tracking-tight text-testo">Registrazione</h2>
+      <div className="w-full bg-crema p-8 sm:p-10">
+        <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ account</p>
+        <h2 className="mb-8 text-4xl font-light tracking-wide text-testo">Registrazione</h2>
 
         {errore && <div className="mb-5 rounded-2xl bg-red-50 px-3 py-3 text-center text-sm text-red-700">{errore}</div>}
 
@@ -123,7 +124,7 @@ export default function Registrazione() {
 
           <button
             type="submit"
-            className="mt-4 w-full cursor-pointer rounded-full bg-vino py-3.5 text-sm font-semibold tracking-[0.12em] text-white uppercase transition duration-300 hover:-translate-y-0.5 hover:bg-vino-scuro disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-muted"
+            className="mt-4 w-full cursor-pointer bg-vino py-3.5 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
             disabled={invio}
           >
             {invio ? 'Registrazione...' : 'Crea account'}

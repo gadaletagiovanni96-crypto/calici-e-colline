@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 const submitButton =
-  'mt-6 w-full cursor-pointer rounded-full bg-vino py-4 text-sm font-semibold tracking-[0.12em] text-white uppercase transition duration-300 hover:-translate-y-0.5 hover:bg-vino-scuro disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-muted disabled:hover:translate-y-0 disabled:hover:bg-muted';
+  'mt-6 w-full cursor-pointer bg-vino py-4 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted';
 
 export default function Checkout() {
   const { utente, esci } = useContext(UtenteContext);
@@ -82,9 +83,9 @@ export default function Checkout() {
   if (statoCaricamento === 'successo') {
     return (
       <div className="anim-salita mx-auto my-6 max-w-3xl">
-        <div className="rounded-[32px] bg-white p-10 text-center shadow-card sm:p-12">
-          <img src="/immagini/calice.png" alt="" className="anim-fluttua mx-auto mb-2 h-44 w-auto" />
-          <h2 className="mb-8 text-center text-4xl font-bold tracking-tight text-testo">Ordine Completato!</h2>
+        <div className="bg-crema p-10 text-center sm:p-12">
+          <NaturaMorta className="anim-fluttua mx-auto mb-2 h-44 w-auto" />
+          <h2 className="mb-8 text-center text-4xl font-light tracking-wide text-testo">Ordine Completato!</h2>
           <p>
             Hai acquistato {ordine?.ordine?.quantita ?? quantitaNum}{' '}
             {(ordine?.ordine?.quantita ?? quantitaNum) === 1 ? 'biglietto' : 'biglietti'} per un
@@ -96,7 +97,7 @@ export default function Checkout() {
             Vedi i biglietti
           </button>
           <button
-            className="mt-3 w-full cursor-pointer rounded-full bg-sfondo py-4 text-sm font-semibold tracking-[0.12em] text-testo uppercase transition duration-300 hover:-translate-y-0.5"
+            className="mt-3 w-full cursor-pointer bg-tela py-4 text-sm font-light tracking-[0.18em] text-prugna transition duration-300 hover:bg-crema"
             onClick={() => navigate('/')}
           >
             Torna alla Home
@@ -109,14 +110,11 @@ export default function Checkout() {
   const esaurito = evento.ticketDisponibili !== undefined && evento.ticketDisponibili < 1;
   return (
     <div className="anim-salita mx-auto my-4 max-w-5xl">
-      <figure className="mb-8 overflow-hidden rounded-[28px] shadow-card">
-        <img src="/immagini/colline.jpg" alt="Colline e vigneti" className="h-44 w-full object-cover sm:h-56" />
-      </figure>
-      <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-vino">/ CHECKOUT</p>
-      <h1 className="mb-8 text-4xl font-bold tracking-tight text-testo">Completa l'Acquisto</h1>
+      <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ checkout</p>
+      <h1 className="mb-8 text-4xl font-light tracking-wide text-testo">Completa l'Acquisto</h1>
 
       <form className="grid grid-cols-1 gap-6 md:grid-cols-[3fr_2fr]" onSubmit={handleSubmit}>
-        <div className="rounded-[28px] bg-white p-8 shadow-card">
+        <div className="bg-crema p-8">
           <h2 className="mb-6 border-b border-bordo pb-3 text-xl font-semibold">Biglietti</h2>
 
           {statoCaricamento === 'errore' && (
@@ -132,7 +130,7 @@ export default function Checkout() {
                 id="quantita"
                 type="number"
                 name="quantita"
-                className="rounded-2xl border border-transparent bg-sfondo px-4 py-3 font-sans outline-none focus:border-vino focus:bg-white"
+                className="border border-bordo bg-white px-4 py-3 font-sans outline-none focus:border-vino"
                 min="1"
                 max={disponibili}
                 required
@@ -146,7 +144,7 @@ export default function Checkout() {
           )}
         </div>
 
-        <div className="rounded-[28px] bg-white p-8 shadow-card">
+        <div className="bg-crema p-8">
           <h2 className="mb-6 border-b border-bordo pb-3 text-xl font-semibold">Riepilogo</h2>
           <div className="mb-4 flex justify-between text-muted">
             <span>Evento</span>

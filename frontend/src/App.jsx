@@ -9,10 +9,11 @@ import Acquisti from './pages/Acquisti';
 import Verifica from './pages/Verifica';
 import { UtenteContext, UtenteProvider } from './context/UtenteContext';
 import { EventoProvider } from './context/EventoContext';
+import { Tenda } from './components/Illustrazione';
 
 function pill({ isActive }) {
-  return `rounded-full px-4 py-2 text-sm font-medium transition duration-200 ${
-    isActive ? 'bg-white text-testo shadow-soft' : 'text-testo/75 hover:bg-white/55'
+  return `px-4 py-2 text-sm font-light tracking-[0.12em] transition duration-200 ${
+    isActive ? 'bg-crema text-prugna' : 'text-prugna/80 hover:bg-crema/70'
   }`;
 }
 
@@ -26,8 +27,8 @@ function BarraNavigazione() {
   };
 
   return (
-    <nav className="anim-comparsa relative z-10 flex flex-wrap items-center gap-4 px-4 pt-5 sm:px-7 lg:px-8">
-      <div className="flex flex-wrap items-center gap-1 rounded-full bg-white/35 p-1.5">
+    <nav className="anim-comparsa relative z-10 flex flex-wrap items-center gap-4 px-4 pt-4 sm:px-7 lg:px-8">
+      <div className="flex flex-wrap items-center gap-1">
         <NavLink to="/" end className={pill}>Evento</NavLink>
         {/* Lo storico è solo per il ruolo utente: gli altri non acquistano */}
         {utente?.ruolo === 'utente' && <NavLink to="/acquisti" className={pill}>I miei acquisti</NavLink>}
@@ -42,7 +43,7 @@ function BarraNavigazione() {
           <button
             type="button"
             onClick={handleLogout}
-            className="cursor-pointer rounded-full bg-white px-4 py-2 text-sm font-semibold text-testo shadow-soft transition duration-200 hover:-translate-y-0.5"
+            className="cursor-pointer bg-crema px-4 py-2 text-sm font-light tracking-[0.12em] text-prugna transition duration-200 hover:bg-white"
           >
             Esci
           </button>
@@ -81,8 +82,9 @@ function App() {
     <UtenteProvider>
       <EventoProvider>
         <Router>
-          <div data-cornice className="min-h-screen p-2.5 sm:p-4 md:p-6">
-            <div data-tela className="griglia relative mx-auto flex min-h-[calc(100vh-1.25rem)] flex-col overflow-hidden rounded-[28px] shadow-card sm:min-h-[calc(100vh-2rem)] md:rounded-[36px]">
+          <div className="min-h-screen bg-sfondo sm:p-4 md:p-6">
+            <div className="relative mx-auto flex min-h-screen flex-col overflow-hidden bg-tela sm:min-h-[calc(100vh-2rem)]">
+              <Tenda />
               <BarraNavigazione />
 
               <main className="relative z-10 flex-1 px-4 pb-10 pt-4 sm:px-7 lg:px-8">
