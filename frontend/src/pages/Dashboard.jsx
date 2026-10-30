@@ -12,9 +12,9 @@ function versoDataOraLocale(iso) {
   return `${data.getFullYear()}-${dueCifre(data.getMonth() + 1)}-${dueCifre(data.getDate())}T${dueCifre(data.getHours())}:${dueCifre(data.getMinutes())}`;
 }
 
-const label = 'mb-1.5 text-sm font-semibold';
+const label = 'mb-1.5 text-xs font-semibold tracking-[0.14em] text-muted uppercase';
 const campo =
-  'rounded-lg border border-bordo px-3 py-3 font-sans text-base outline-none focus:border-vino';
+  'border border-bordo bg-white px-4 py-3 font-sans text-base outline-none transition focus:border-vino';
 
 export default function Dashboard() {
   const [dati, setDati] = useState(null);
@@ -117,38 +117,39 @@ export default function Dashboard() {
     }
   };
 
-  if (caricamento) return <div className="p-8 text-center text-lg text-muted">Caricamento statistiche in corso...</div>;
+  if (caricamento) return <div className="anim-comparsa p-8 text-center text-lg text-muted">Caricamento statistiche in corso...</div>;
 
   return (
-    <div className="mx-auto max-w-6xl p-4">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-[2rem] font-bold text-vino">Dashboard Amministratore</h1>
+    <div className="anim-salita mx-auto max-w-6xl">
+      <div className="mb-8">
+        <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ admin</p>
+        <h1 className="text-4xl font-light tracking-wide text-testo">Dashboard Amministratore</h1>
       </div>
 
-      {errore && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
+      {errore && <div className="mb-4 rounded-2xl bg-red-50 p-4 text-center text-red-700">{errore}</div>}
 
       {dati && (
         <>
           {/* Griglia Statistiche */}
-          <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6">
-            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+          <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+            <div className="flex flex-col bg-crema p-6 transition duration-300 hover:-translate-y-1">
               <span className="mb-2 text-[2.5rem] font-bold text-vino">{dati.statistiche.bigliettiVenduti}</span>
-              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Biglietti Venduti</span>
+              <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Biglietti Venduti</span>
             </div>
-            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+            <div className="flex flex-col bg-crema p-6 transition duration-300 hover:-translate-y-1">
               <span className="mb-2 text-[2.5rem] font-bold text-vino">{dati.statistiche.bigliettiDisponibili}</span>
-              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Biglietti Disponibili</span>
+              <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Biglietti Disponibili</span>
             </div>
-            <div className="flex flex-col rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+            <div className="flex flex-col bg-crema p-6 transition duration-300 hover:-translate-y-1">
               <span className="mb-2 text-[2.5rem] font-bold text-vino">€ {dati.statistiche.ricavoTotale.toFixed(2)}</span>
-              <span className="text-[0.95rem] font-semibold tracking-wide text-muted uppercase">Ricavo Totale</span>
+              <span className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Ricavo Totale</span>
             </div>
           </div>
 
           <h2 className="mb-4 text-2xl font-semibold text-testo">Modifica evento</h2>
-          <form className="mb-12 rounded-2xl border border-bordo bg-superficie p-6 shadow-card" onSubmit={handleSalva}>
-            {erroreForm && <div className="mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700">{erroreForm}</div>}
-            {messaggio && <div className="mb-4 rounded-lg bg-green-100 p-4 text-center text-green-800">{messaggio}</div>}
+          <form className="mb-12 bg-crema p-6" onSubmit={handleSalva}>
+            {erroreForm && <div className="mb-4 rounded-2xl bg-red-50 p-4 text-center text-red-700">{erroreForm}</div>}
+            {messaggio && <div className="mb-4 rounded-2xl bg-green-50 p-4 text-center text-green-800">{messaggio}</div>}
 
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
               <div className="mb-4 flex flex-col">
@@ -180,7 +181,7 @@ export default function Dashboard() {
 
             <button
               type="submit"
-              className="cursor-pointer rounded-lg bg-vino px-6 py-3 font-bold text-superficie transition hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
+              className="cursor-pointer bg-vino px-6 py-3 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
               disabled={salvataggio || !form}
             >
               {salvataggio ? 'Salvataggio...' : 'Salva modifiche'}
@@ -189,8 +190,8 @@ export default function Dashboard() {
 
           {/* Tabella Acquirenti */}
           <h2 className="mb-4 text-2xl font-semibold text-testo">Ultimi Acquirenti</h2>
-          <div className="overflow-x-auto rounded-2xl border border-bordo bg-superficie shadow-card">
-            <table className="w-full border-collapse [&_tbody_tr:last-child_td]:border-b-0">
+          <div className="overflow-x-auto bg-crema">
+            <table className="w-full border-collapse [&_tbody_tr:last-child_td]:border-b-0 [&_tbody_tr]:transition [&_tbody_tr]:hover:bg-sfondo">
               <thead>
                 <tr>
                   <th className="border-b border-bordo bg-sfondo px-6 py-4 text-left text-sm font-semibold text-muted uppercase">Nome e Cognome</th>

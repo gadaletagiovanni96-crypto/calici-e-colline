@@ -1,16 +1,78 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-vino: #722f37;
-  --color-vino-scuro: #5a242b;
-  --color-oliva: #4a5d23;
-  --color-oliva-scuro: #3a4a1c;
-  --color-sfondo: #f9f9fb;
-  --color-superficie: #ffffff;
-  --color-testo: #1a1a1a;
-  --color-muted: #666666;
-  --color-bordo: #e5e7eb;
-  --shadow-soft: 0 1px 3px rgb(0 0 0 / 0.1);
-  --shadow-card: 0 4px 6px rgb(0 0 0 / 0.05);
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-vino: #964c6d;
+  --color-vino-scuro: #7a3b56;
+  --color-oliva: #964c6d;
+  --color-oliva-scuro: #7a3b56;
+  --color-prugna: #653e51;
+  --color-crema: #fff5e1;
+  --color-sfondo: #fff5e1;
+  --color-tela: #e4d28a;
+  --color-superficie: #fff5e1;
+  --color-testo: #3f2433;
+  --color-muted: #7d5a68;
+  --color-bordo: #d4c48a;
+  --shadow-soft: 0 0 0 rgb(0 0 0 / 0);
+  --shadow-card: 0 0 0 rgb(0 0 0 / 0);
+}
+
+@keyframes salita {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fluttua {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes comparsa {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-salita {
+  animation: salita 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-ritardo {
+  animation-delay: 0.12s;
+}
+
+.anim-ritardo-2 {
+  animation-delay: 0.24s;
+}
+
+.anim-fluttua {
+  animation: fluttua 5.5s ease-in-out infinite;
+}
+
+.anim-comparsa {
+  animation: comparsa 0.6s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-salita,
+  .anim-fluttua,
+  .anim-comparsa {
+    animation: none;
+  }
 }

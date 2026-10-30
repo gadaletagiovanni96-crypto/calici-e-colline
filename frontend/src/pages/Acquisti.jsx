@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 // Il QR non è salvato nel database: il servizio esterno disegna l'immagine a partire dal codice del ticket
 function urlQr(codice) {
@@ -40,22 +41,28 @@ export default function Acquisti() {
     caricaAcquisti();
   }, [navigate, esci]);
 
-  if (caricamento) return <div className="p-8 text-center text-lg text-muted">Caricamento acquisti...</div>;
+  if (caricamento) return <div className="anim-comparsa p-8 text-center text-lg text-muted">Caricamento acquisti...</div>;
 
   return (
-    <div className="mx-auto max-w-[900px] p-4">
-      <h1 className="mb-6 text-[2rem] font-bold text-vino">I miei acquisti</h1>
+    <div className="anim-salita mx-auto max-w-[900px]">
+      <div className="mb-8 grid items-center gap-6 md:grid-cols-[180px_1fr]">
+        <NaturaMorta className="anim-fluttua h-36 w-auto" />
+        <div>
+          <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ biglietti</p>
+          <h1 className="text-4xl font-light tracking-wide text-testo">I miei acquisti</h1>
+        </div>
+      </div>
 
-      {errore && <div className="mb-8 rounded-lg bg-red-100 p-4 text-center text-red-700">{errore}</div>}
+      {errore && <div className="mb-8 rounded-2xl bg-red-50 p-4 text-center text-red-700">{errore}</div>}
 
       {/* Lista vuota: l'utente è loggato ma non ha ancora ordini */}
       {!errore && acquisti.length === 0 && (
-        <p className="p-8 text-center text-lg text-muted">Non hai ancora acquistato biglietti.</p>
+        <p className="bg-crema p-8 text-center text-lg text-muted">Non hai ancora acquistato biglietti.</p>
       )}
 
       {/* Un riquadro per ordine, e dentro un QR per ogni biglietto */}
       {acquisti.map((ordine) => (
-        <article key={ordine.id} className="mb-6 rounded-2xl border border-bordo bg-superficie p-6 shadow-card">
+        <article key={ordine.id} className="anim-salita mb-6 bg-crema p-6">
           <h2 className="mb-1 text-xl">
             Ordine del {new Date(ordine.dataAcquisto).toLocaleString('it-IT', {
               day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
@@ -67,7 +74,7 @@ export default function Acquisti() {
 
           <div className="flex flex-wrap gap-4">
             {ordine.tickets.map((ticket, indice) => (
-              <div key={ticket._id} className="flex flex-col items-center gap-1.5 rounded-lg border border-bordo bg-sfondo p-4">
+              <div key={ticket._id} className="flex flex-col items-center gap-1.5 rounded-[20px] bg-sfondo p-4 transition duration-300 hover:-translate-y-1">
                 <img
                   className="rounded bg-white"
                   src={urlQr(ticket.codice)}

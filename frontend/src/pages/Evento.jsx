@@ -2,9 +2,12 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 const buyButton =
-  'cursor-pointer rounded-full bg-oliva px-12 py-4 text-xl font-semibold text-superficie shadow-soft transition hover:-translate-y-0.5 hover:bg-oliva-scuro disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-muted disabled:hover:translate-y-0 disabled:hover:bg-muted';
+  'cursor-pointer bg-vino px-8 py-3.5 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted';
+
+const scheda = 'bg-crema p-6 transition duration-300 hover:-translate-y-1';
 
 export default function Evento() {
   const { utente } = useContext(UtenteContext);
@@ -18,45 +21,22 @@ export default function Evento() {
       navigate('/checkout');
     }
   };
-  if (caricamento && !evento) return <div className="py-20 text-center">Caricamento evento...</div>;
-  if (!evento) return <div className="py-20 text-center text-red-600">{errore || "Impossibile caricare l'evento."}</div>;
+  if (caricamento && !evento) return <div className="anim-comparsa py-24 text-center text-lg text-testo/70">Caricamento evento...</div>;
+  if (!evento) return <div className="anim-comparsa py-24 text-center text-lg text-red-700">{errore || "Impossibile caricare l'evento."}</div>;
+
+  const anno = new Date(evento.dataOra).getFullYear();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="rounded-b-[40px] bg-vino px-8 py-24 text-center text-superficie shadow-card">
-        <h1 className="mb-4 text-[3.5rem] font-bold tracking-tight">{evento.titolo}</h1>
-        <p className="mx-auto max-w-xl text-xl font-light opacity-90">{evento.descrizione}</p>
-      </header>
-
-      <main className="mx-auto -mt-12 mb-8 w-full max-w-5xl flex-1 px-4">
-        <div className="rounded-2xl border border-bordo bg-superficie p-12 shadow-card">
-          <div className="mb-12 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-8">
-            <div className="rounded-lg border border-bordo bg-sfondo p-6 text-center">
-              <div className="mb-2 text-sm font-semibold uppercase text-muted">Data e Ora</div>
-              <div className="text-xl font-bold text-testo">
-                {new Date(evento.dataOra).toLocaleString('it-IT', {
-                  day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                })}
-              </div>
-            </div>
-            
-            <div className="rounded-lg border border-bordo bg-sfondo p-6 text-center">
-              <div className="mb-2 text-sm font-semibold uppercase text-muted">Location</div>
-              <div className="text-xl font-bold text-testo">{evento.luogo}</div>
-            </div>
-
-            <div className="rounded-lg border border-bordo bg-sfondo p-6 text-center">
-              <div className="mb-2 text-sm font-semibold uppercase text-muted">Disponibilità</div>
-              <div className="text-xl font-bold text-testo">
-                {evento.ticketDisponibili > 0 
-                  ? `${evento.ticketDisponibili} posti rimasti` 
-                  : 'Sold Out'}
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-bordo pt-8 text-center">
-            <span className="mb-6 block text-[2.5rem] font-bold text-vino">€ {evento.prezzo.toFixed(2)}</span>
+    <div>
+      <div className="grid items-center gap-6 min-[720px]:grid-cols-[minmax(0,1.1fr)_minmax(220px,360px)]">
+        <div className="anim-salita max-w-xl pt-4">
+          <p className="mb-4 text-sm font-light tracking-[0.28em] text-prugna">/ {anno}</p>
+          <h1 className="text-[clamp(2.4rem,5vw,4.2rem)] font-light leading-[1.05] tracking-tight text-prugna">
+            {evento.titolo}
+          </h1>
+          <p className="mt-5 max-w-md text-lg font-light leading-relaxed text-testo/85">{evento.descrizione}</p>
+          <div className="anim-salita anim-ritardo mt-8 flex flex-wrap items-center gap-4">
+            <span className="text-3xl font-light text-prugna">€ {evento.prezzo.toFixed(2)}</span>
             {utente?.ruolo === 'operatore' ? (
               <button className={buyButton} onClick={() => navigate('/verifica')}>
                 Verifica un biglietto
@@ -76,7 +56,38 @@ export default function Evento() {
             )}
           </div>
         </div>
-      </main>
+
+        <NaturaMorta className="anim-fluttua mx-auto h-[min(420px,58vh)] w-auto" />
+      </div>
+
+      <div className="anim-salita anim-ritardo-2 mt-10 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+        <div className={scheda}>
+          <div className="mb-2 text-xs font-light tracking-[0.18em] text-muted uppercase">Data e Ora</div>
+          <div className="text-lg font-light text-testo">
+            {new Date(evento.dataOra).toLocaleString('it-IT', {
+              day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            })}
+          </div>
+        </div>
+
+        <div className={scheda}>
+          <div className="mb-2 text-xs font-light tracking-[0.18em] text-muted uppercase">Location</div>
+          <div className="text-lg font-light text-testo">{evento.luogo}</div>
+        </div>
+
+        <div className={scheda}>
+          <div className="mb-2 text-xs font-light tracking-[0.18em] text-muted uppercase">Disponibilità</div>
+          <div className="text-lg font-light text-testo">
+            {evento.ticketDisponibili > 0
+              ? `${evento.ticketDisponibili} posti rimasti`
+              : 'Sold Out'}
+          </div>
+        </div>
+      </div>
+
+      <p aria-hidden="true" className="-mx-4 -mb-10 mt-12 bg-vino py-10 text-center text-5xl font-light tracking-[0.45em] text-crema sm:-mx-7 sm:text-6xl lg:-mx-8">
+        vino
+      </p>
     </div>
   );
 }

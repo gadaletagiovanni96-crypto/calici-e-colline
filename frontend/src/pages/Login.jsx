@@ -2,10 +2,11 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
-const label = 'mb-2 text-sm font-semibold text-testo';
+const label = 'mb-2 text-xs font-semibold tracking-[0.14em] text-muted uppercase';
 const input =
-  'rounded-lg border border-bordo px-3 py-3 font-sans transition outline-none focus:border-vino';
+  'border border-bordo bg-white px-4 py-3 font-sans transition outline-none focus:border-vino';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -41,11 +42,15 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-bordo bg-superficie p-10 shadow-card">
-        <h2 className="mb-8 text-center text-2xl font-bold text-vino">Accesso</h2>
+    <div className="anim-salita mx-auto grid max-w-5xl items-center gap-8 py-4 lg:grid-cols-2">
+      <div className="flex justify-center">
+        <NaturaMorta className="anim-fluttua h-56 w-auto sm:h-80" />
+      </div>
+      <div className="w-full bg-crema p-8 sm:p-10">
+        <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ account</p>
+        <h2 className="mb-8 text-4xl font-light tracking-wide text-testo">Accesso</h2>
         
-        {errore && <div className="mb-5 rounded-lg bg-red-100 px-3 py-3 text-center text-sm text-red-700">{errore}</div>}
+        {errore && <div className="mb-5 rounded-2xl bg-red-50 px-3 py-3 text-center text-sm text-red-700">{errore}</div>}
 
         <form onSubmit={handleLogin}>
           <div className="mb-5 flex flex-col">
@@ -76,13 +81,13 @@ export default function Login() {
 
           <button
             type="submit"
-            className="mt-4 w-full cursor-pointer rounded-lg bg-vino py-3 font-semibold text-superficie transition hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
+            className="mt-4 w-full cursor-pointer bg-vino py-3.5 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted"
           >
             Accedi
           </button>
         </form>
 
-        <Link to="/registrazione" state={location.state} className="mt-5 block text-center text-sm font-semibold text-vino">
+        <Link to="/registrazione" state={location.state} className="mt-5 block text-center text-sm font-semibold text-testo transition hover:text-vino">
           Non hai un account? Registrati
         </Link>
       </div>

@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
+import { NaturaMorta } from '../components/Illustrazione';
 
 const submitButton =
-  'mt-6 w-full cursor-pointer rounded-lg bg-oliva py-4 text-lg font-bold text-superficie transition hover:bg-oliva-scuro disabled:cursor-not-allowed disabled:bg-muted disabled:hover:bg-muted';
+  'mt-6 w-full cursor-pointer bg-vino py-4 text-sm font-light tracking-[0.18em] text-crema transition duration-300 hover:bg-vino-scuro disabled:cursor-not-allowed disabled:bg-muted';
 
 export default function Checkout() {
   const { utente, esci } = useContext(UtenteContext);
@@ -72,19 +73,19 @@ export default function Checkout() {
 
   // Evento non caricato: mostra l'errore invece di restare in caricamento all'infinito
   if (!evento && (erroreEvento || erroreMsg)) {
-    return <div className="p-12 text-center text-red-600">{erroreEvento || erroreMsg}</div>;
+    return <div className="p-12 text-center text-red-700">{erroreEvento || erroreMsg}</div>;
   }
 
   if (!evento) {
-    return <div className="p-12 text-center">Caricamento carrello...</div>;
+    return <div className="anim-comparsa p-12 text-center text-lg text-testo/70">Caricamento carrello...</div>;
   }
 
   if (statoCaricamento === 'successo') {
     return (
-      <div className="mx-auto my-8 max-w-3xl px-4">
-        <div className="rounded-2xl border border-bordo bg-superficie p-12 text-center shadow-soft">
-          <div className="mb-4 text-6xl">🍷</div>
-          <h2 className="mb-8 text-center text-[2rem] text-vino">Ordine Completato!</h2>
+      <div className="anim-salita mx-auto my-6 max-w-3xl">
+        <div className="bg-crema p-10 text-center sm:p-12">
+          <NaturaMorta className="anim-fluttua mx-auto mb-2 h-44 w-auto" />
+          <h2 className="mb-8 text-center text-4xl font-light tracking-wide text-testo">Ordine Completato!</h2>
           <p>
             Hai acquistato {ordine?.ordine?.quantita ?? quantitaNum}{' '}
             {(ordine?.ordine?.quantita ?? quantitaNum) === 1 ? 'biglietto' : 'biglietti'} per un
@@ -96,7 +97,7 @@ export default function Checkout() {
             Vedi i biglietti
           </button>
           <button
-            className="mt-3 w-full cursor-pointer rounded-lg border border-vino bg-transparent py-4 text-lg font-bold text-vino"
+            className="mt-3 w-full cursor-pointer bg-tela py-4 text-sm font-light tracking-[0.18em] text-prugna transition duration-300 hover:bg-crema"
             onClick={() => navigate('/')}
           >
             Torna alla Home
@@ -108,12 +109,13 @@ export default function Checkout() {
 
   const esaurito = evento.ticketDisponibili !== undefined && evento.ticketDisponibili < 1;
   return (
-    <div className="mx-auto my-8 max-w-3xl px-4">
-      <h1 className="mb-8 text-center text-[2rem] text-vino">Completa l'Acquisto</h1>
+    <div className="anim-salita mx-auto my-4 max-w-5xl">
+      <p className="mb-2 text-sm font-light tracking-[0.28em] text-vino">/ checkout</p>
+      <h1 className="mb-8 text-4xl font-light tracking-wide text-testo">Completa l'Acquisto</h1>
 
-      <form className="grid grid-cols-1 gap-8 md:grid-cols-[3fr_2fr]" onSubmit={handleSubmit}>
-        <div className="rounded-2xl border border-bordo bg-superficie p-8 shadow-soft">
-          <h2 className="mb-6 border-b-2 border-sfondo pb-2 text-xl">Biglietti</h2>
+      <form className="grid grid-cols-1 gap-6 md:grid-cols-[3fr_2fr]" onSubmit={handleSubmit}>
+        <div className="bg-crema p-8">
+          <h2 className="mb-6 border-b border-bordo pb-3 text-xl font-semibold">Biglietti</h2>
 
           {statoCaricamento === 'errore' && (
             <div className="mb-4 text-red-600">{erroreMsg}</div>
@@ -128,7 +130,7 @@ export default function Checkout() {
                 id="quantita"
                 type="number"
                 name="quantita"
-                className="rounded-lg border border-bordo px-3 py-3 font-sans outline-none focus:border-vino"
+                className="border border-bordo bg-white px-4 py-3 font-sans outline-none focus:border-vino"
                 min="1"
                 max={disponibili}
                 required
@@ -142,8 +144,8 @@ export default function Checkout() {
           )}
         </div>
 
-        <div className="rounded-2xl border border-bordo bg-superficie p-8 shadow-soft">
-          <h2 className="mb-6 border-b-2 border-sfondo pb-2 text-xl">Riepilogo</h2>
+        <div className="bg-crema p-8">
+          <h2 className="mb-6 border-b border-bordo pb-3 text-xl font-semibold">Riepilogo</h2>
           <div className="mb-4 flex justify-between text-muted">
             <span>Evento</span>
             <span>{evento.titolo}</span>
@@ -156,7 +158,7 @@ export default function Checkout() {
             <span>Biglietti</span>
             <span>x {quantitaValida ? quantitaNum : 0}</span>
           </div>
-          <div className="mt-6 flex justify-between border-t border-bordo pt-4 text-xl font-bold text-vino">
+          <div className="mt-6 flex justify-between border-t border-bordo pt-4 text-xl font-bold text-testo">
             <span>Totale da pagare</span>
             <span>€ {totale.toFixed(2)}</span>
           </div>
