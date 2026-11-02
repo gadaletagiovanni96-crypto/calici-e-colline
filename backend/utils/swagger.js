@@ -30,7 +30,7 @@ const specifiche = swaggerJsdoc(opzioni);
 
 const inizializzaSwagger = (app) => {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specifiche));
-    console.log('Swagger disponibile su http://localhost:5000/api-docs');
+    console.log('Swagger disponibile su http://localhost:5001/api-docs');
 };
 
 module.exports = inizializzaSwagger;
