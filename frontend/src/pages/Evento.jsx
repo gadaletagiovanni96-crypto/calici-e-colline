@@ -84,10 +84,6 @@ export default function Evento() {
           </div>
         </div>
       </div>
-
-      <p aria-hidden="true" className="-mx-4 -mb-10 mt-12 bg-vino py-10 text-center text-5xl font-light tracking-[0.45em] text-crema sm:-mx-7 sm:text-6xl lg:-mx-8">
-        vino
-      </p>
     </div>
   );
 }

@@ -8,7 +8,7 @@ import Checkout from './pages/Checkout';
 import Acquisti from './pages/Acquisti';
 import Verifica from './pages/Verifica';
 import { UtenteContext, UtenteProvider } from './context/UtenteContext';
-import { EventoProvider } from './context/EventoContext';
+import { EventoContext, EventoProvider } from './context/EventoContext';
 import { Tenda } from './components/Illustrazione';
 
 function pill({ isActive }) {
@@ -50,6 +50,26 @@ function BarraNavigazione() {
         )}
       </div>
     </nav>
+  );
+}
+
+function PieDiPagina() {
+  const { evento } = useContext(EventoContext);
+  const annoEvento = evento?.dataOra ? new Date(evento.dataOra).getFullYear() : null;
+
+  return (
+    <footer className="relative z-10 mt-auto flex flex-col gap-3 bg-prugna px-4 py-6 text-sm font-light text-crema sm:flex-row sm:items-end sm:justify-between sm:px-7 lg:px-8">
+      <div>
+        <p className="tracking-[0.14em]">Calici e Colline</p>
+        <p className="mt-1 text-crema/75">Biglietti per l'evento enoturistico</p>
+        {evento && (
+          <p className="mt-1 text-crema/75">
+            {evento.luogo}{annoEvento ? ` · ${annoEvento}` : ''}
+          </p>
+        )}
+      </div>
+      <p className="text-crema/80">© 2026 Calici e Colline</p>
+    </footer>
   );
 }
 
@@ -98,6 +118,7 @@ function App() {
                   <Route path="/verifica" element={<SoloOperatore />} />
                 </Routes>
               </main>
+              <PieDiPagina />
             </div>
           </div>
         </Router>
