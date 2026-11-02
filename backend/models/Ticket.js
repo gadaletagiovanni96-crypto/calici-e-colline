@@ -11,7 +11,7 @@ const ticketSchema = new mongoose.Schema({
         type: String, 
         required: true, 
         unique: true,
-        default: uuidv4 // Genera automaticamente una stringa univoca sicura
+        default: uuidv4 // Genera automaticamente una stringa univoca sicura per il qrcode
     },
     utilizzato: { 
         type: Boolean, 

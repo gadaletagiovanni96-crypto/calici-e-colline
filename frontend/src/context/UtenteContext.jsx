@@ -12,7 +12,7 @@ export function UtenteProvider({ children }) {
     return token ? { token, ruolo, nome } : null;
   });
 
-  const accedi = useCallback((token, ruolo, nome) => {
+  const accedi = useCallback((token, ruolo, nome) => { //usiamo useCallback perchè non viene eseguita al primo render ma rimane in memoria finchè non viene richiamata
     localStorage.setItem('token', token);
     localStorage.setItem('ruolo', ruolo);
     localStorage.setItem('nome', nome);

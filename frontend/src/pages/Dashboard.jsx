@@ -4,7 +4,7 @@ import api from '../services/api';
 import { UtenteContext } from '../context/UtenteContext';
 import { EventoContext } from '../context/EventoContext';
 
-// datetime-local vuole "2026-10-27T18:00", senza il fuso dell'ISO del database
+// datetime-local vuole "2026-10-27T18:00"
 function versoDataOraLocale(iso) {
   if (!iso) return '';
   const data = new Date(iso);

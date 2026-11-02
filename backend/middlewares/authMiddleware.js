@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Utente = require('../models/Utente');
 
-// 1. Controllo del Token (Il Buttafuori base)
+// 1. Controllo del Token
 const autenticaJWT = async (req, res, next) => {
     try {
         // Cerca il token nell'intestazione della richiesta
