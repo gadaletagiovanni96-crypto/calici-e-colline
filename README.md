@@ -148,4 +148,4 @@ Creati da `node scripts/seed.js`:
 | Amministratore | `admin@caliciecolline.it` | `AdminPassword123!` |
 | Operatore | `scanner@caliciecolline.it` | `Scanner123!` |
 
-Un account utente si crea dalla pagina di registrazione. L’evento iniziale è «Calici e Colline 2026», a Molfetta, con prezzo di 15 € e 500 posti.
+Un account utente si crea dalla pagina di registrazione. L’evento iniziale è «Calici e Colline 2026», ad Andria, con prezzo di 15 € e 500 posti.

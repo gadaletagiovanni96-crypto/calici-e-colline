@@ -21,7 +21,7 @@ Vengono create con `node scripts/seed.js` nella cartella `backend`, dopo aver co
 | Amministratore | `admin@caliciecolline.it` | `AdminPassword123!` |
 | Operatore | `scanner@caliciecolline.it` | `Scanner123!` |
 
-L'account con ruolo utente si crea dalla pagina di registrazione. Lo script inserisce anche l'evento iniziale, se non ne esiste già uno: «Calici e Colline 2026», Molfetta, 15 €, 500 posti.
+L'account con ruolo utente si crea dalla pagina di registrazione. Lo script inserisce anche l'evento iniziale, se non ne esiste già uno: «Calici e Colline 2026», Andria, 15 €, 500 posti.
 
 ## Swagger
 
